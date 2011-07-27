@@ -4,41 +4,31 @@
 
 namespace libredwg2 {
 
-class Archive;
-class Decoder;
+class Schema;
 
-class Parser
+class Archive
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
-    enum Release {
-      R13,
-      R14,
-      R2000,
-      R2004
-    };
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    Archive& archive_;
+    /// The filebuffer to read from
+    std::ifstream fileStream_;
 
-    int32_t previewOffset_;
-    int16_t codepage_;
-    int32_t securityFlags_;
-    int32_t summaryOffset_;
-    int32_t sectionMapOffset_;
+    /// The size of the file
+    size_t size_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser(Archive& archive);
-
-    virtual ~Parser() {}
+    Archive();
+    virtual ~Archive();
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -49,20 +39,16 @@ class Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual Release getVersionNumber() const = 0;
+    /// Restore a schema from a file
+    /// @param pathFile a (valid) file path to a drawing file
+    /// @param ptrSchema a pointer to a schema restored from that file. ptrSchema->reset() will be called
+    core::ResultCode restore(const boost::filesystem::path& pathFile, boost::shared_ptr<Schema>& ptrSchema);
 
-    core::ResultCode parse();
-
-  private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod) = 0;
-
-    virtual core::ResultCode parsePreview();
-
-  private:
-    core::ResultCode uncompress(core::MemBuffer& compressed, core::MemBuffer& clear, int type);
-
-  public:
-    static core::ResultCode create(Archive& archive, boost::shared_ptr<Parser>& ptrLoader);
+    /// Read bytes from the file
+    /// @param buffer the buffer to write data into
+    /// @param pos the start position in the file
+    /// @param len the length of data to read
+    core::ResultCode read(core::IWriteBuffer& buffer, size_t pos, size_t len);
 };
 
 ////////////////////////////////////////////////////////////////

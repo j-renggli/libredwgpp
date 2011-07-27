@@ -2,7 +2,7 @@
 
 #include <core/include/log/coutdisplay.h>
 
-#include "file/loader.h"
+#include "file/archive.h"
 
 
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
   core::gLogManager.registerDisplay(boost::shared_ptr<core::IDisplay>
     (new core::COutDisplay(core::LogManager::eDebug)));
 
-  libredwg2::Loader parser;
+  libredwg2::Archive parser;
   boost::shared_ptr<libredwg2::Schema> ptrSchema;
   LOG_DEBUG(parser.restore("www/Villa.dwg", ptrSchema));
   return 0;

@@ -6,8 +6,8 @@ namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
 
-Parser2004::Parser2004(std::ifstream& fileBuffer) :
-Parser(fileBuffer)
+Parser2004::Parser2004(Archive& archive) :
+Parser(archive)
 {
 }
 

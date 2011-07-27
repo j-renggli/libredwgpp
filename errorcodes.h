@@ -7,5 +7,6 @@ namespace libredwg2 {
 extern core::ResultCode rcFileNotFound;
 extern core::ResultCode rcInputError;
 extern core::ResultCode rcVersionError;
+extern core::ResultCode rcOutOfBounds;
 
 }

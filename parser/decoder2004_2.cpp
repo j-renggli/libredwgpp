@@ -23,9 +23,6 @@ core::ResultCode Decoder2004_2::decode(core::MemBuffer& raw, core::MemBuffer& ou
     if (opcode == 0x00)
     {
       opcode = in.readRC();
-      LOG_DEBUG("New opcode " << std::hex << opcode);
-    } else {
-      LOG_DEBUG("Opcode " << std::hex << opcode);
     }
 
 //    LOG_DEBUG(opcode);
@@ -69,9 +66,6 @@ core::ResultCode Decoder2004_2::decode(core::MemBuffer& raw, core::MemBuffer& ou
       else
         litlen = readLiteralLength(in, opcode);
     }
-
-    LOG_DEBUG(bytelen << " - " << byteoffset << " / " << litlen);
-
 
     // Copy compressed data
     int current = out.getPosition();

@@ -18,7 +18,7 @@ INCLUDE_DIRECTORIES(. ..)
 SET(DWG_SRC
 errorcodes.cpp
 
-file/loader.cpp
+file/archive.cpp
 
 parser/decoder2004_2.cpp
 parser/dwgbuffer.cpp

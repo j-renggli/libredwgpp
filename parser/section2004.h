@@ -1,44 +1,26 @@
 #pragma once
 
-#include "../includes.h"
+#include "section.h"
 
 namespace libredwg2 {
 
-class Archive;
-class Decoder;
-
-class Parser
+class Section2004 : public Section
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
-    enum Release {
-      R13,
-      R14,
-      R2000,
-      R2004
-    };
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    Archive& archive_;
-
-    int32_t previewOffset_;
-    int16_t codepage_;
-    int32_t securityFlags_;
-    int32_t summaryOffset_;
-    int32_t sectionMapOffset_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser(Archive& archive);
-
-    virtual ~Parser() {}
+    virtual ~Section2004() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -49,20 +31,7 @@ class Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual Release getVersionNumber() const = 0;
-
-    core::ResultCode parse();
-
-  private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod) = 0;
-
-    virtual core::ResultCode parsePreview();
-
-  private:
-    core::ResultCode uncompress(core::MemBuffer& compressed, core::MemBuffer& clear, int type);
-
-  public:
-    static core::ResultCode create(Archive& archive, boost::shared_ptr<Parser>& ptrLoader);
+//    virtual core::ResultCode decode(core::MemBuffer& in, core::MemBuffer& out) = 0;
 };
 
 ////////////////////////////////////////////////////////////////

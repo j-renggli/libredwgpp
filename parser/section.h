@@ -4,17 +4,12 @@
 
 namespace libredwg2 {
 
-class Schema;
-
-class Loader
+class Section
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
-//    typedef uint8_t Buffer;
-
-  private:
 
   ////////////////////////////////////////////////////////////////
   // Members
@@ -25,8 +20,7 @@ class Loader
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Loader();
-    virtual ~Loader();
+    virtual ~Section() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -37,10 +31,7 @@ class Loader
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    /// Restore a schema from a file
-    /// @param pathFile a (valid) file path to a drawing file
-    /// @param ptrSchema a pointer to a schema restored from that file. ptrSchema->reset() will be called
-    core::ResultCode restore(const boost::filesystem::path& pathFile, boost::shared_ptr<Schema>& ptrSchema);
+//    virtual core::ResultCode decode(core::MemBuffer& in, core::MemBuffer& out) = 0;
 };
 
 ////////////////////////////////////////////////////////////////

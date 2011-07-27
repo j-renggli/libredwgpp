@@ -1,4 +1,4 @@
-#include "loader.h"
+#include "archive.h"
 
 #include <parser/parser.h>
 
@@ -6,40 +6,52 @@ namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
 
-Loader::Loader()
+Archive::Archive()
 {
 }
 
 ////////////////////////////////////////////////////////////////
 
-Loader::~Loader()
+Archive::~Archive()
 {
 }
 
 ////////////////////////////////////////////////////////////////
 
-//core::ResultCode Loader::parseHeader(std::ifstream& fileIn, Header& header)
-//{
-//}
+core::ResultCode Archive::read(core::IWriteBuffer& buffer, size_t pos, size_t len)
+{
+  if (pos + len > size_)
+    return rcOutOfBounds;
+
+  buffer.resize(len);
+  fileStream_.seekg(pos);
+  fileStream_.read((char*)buffer.getBuffer(), len);
+  buffer.setPosition(0);
+  return core::rcSuccess;
+}
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Loader::restore(const boost::filesystem::path& pathFile, boost::shared_ptr<Schema>& ptrSchema)
+core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost::shared_ptr<Schema>& ptrSchema)
 {
   // Basic tests
   if (!exists(pathFile) || !is_regular(pathFile))
   {
+    LOG_ERROR("File not found: " << pathFile);
     return rcFileNotFound;
   }
 
-  std::ifstream fileIn(pathFile.native_file_string().c_str(), std::ios::binary);
-  if (!fileIn)
+  fileStream_.open(pathFile.native_file_string().c_str(), std::ios::binary);
+  if (!fileStream_)
   {
+    LOG_ERROR("File could not be loaded: " << pathFile);
     return rcInputError;
   }
 
+  size_ = boost::filesystem::file_size(pathFile);
+
   boost::shared_ptr<Parser> ptrParser;
-  core::ResultCode rc = Parser::create(fileIn, ptrParser);
+  core::ResultCode rc = Parser::create(*this, ptrParser);
   if (rc.isFailure())
     return rc;
 

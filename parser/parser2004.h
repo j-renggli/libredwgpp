@@ -20,7 +20,7 @@ class Parser2004 : public Parser
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2004(std::ifstream& fileBuffer);
+    Parser2004(Archive& archive);
 
     virtual ~Parser2004();
 
