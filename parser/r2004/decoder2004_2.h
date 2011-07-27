@@ -1,10 +1,12 @@
 #pragma once
 
-#include "section.h"
+#include "../decoder.h"
 
 namespace libredwg2 {
 
-class Section2004 : public Section
+class DWGBuffer;
+
+class Decoder2004_2 : public Decoder
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
@@ -20,7 +22,7 @@ class Section2004 : public Section
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    virtual ~Section2004() {}
+    virtual ~Decoder2004_2() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -31,7 +33,14 @@ class Section2004 : public Section
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-//    virtual core::ResultCode decode(core::MemBuffer& in, core::MemBuffer& out) = 0;
+    virtual core::ResultCode decode(core::IReadBuffer& raw, core::IWriteBuffer& out);
+
+  private:
+    int readLiteralLength(DWGBuffer& in, int& opcode);
+
+    int readOffset2b(DWGBuffer& in, int& litlen);
+
+    int readOffsetLong(DWGBuffer& in);
 };
 
 ////////////////////////////////////////////////////////////////

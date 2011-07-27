@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../includes.h"
+#include "../parser.h"
 
 namespace libredwg2 {
 
-class Decoder
+class Parser2004 : public Parser
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  public:
+  private:
 
   ////////////////////////////////////////////////////////////////
   // Members
@@ -20,7 +20,9 @@ class Decoder
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    virtual ~Decoder() {}
+    Parser2004(Archive& archive);
+
+    virtual ~Parser2004();
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -31,7 +33,12 @@ class Decoder
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual core::ResultCode decode(core::IReadBuffer& raw, core::IWriteBuffer& out) = 0;
+    virtual Parser::Release getVersionNumber() const { return Parser::R2004; }
+
+  private:
+    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
+//    virtual core::ResultCode parse();
+
 };
 
 ////////////////////////////////////////////////////////////////

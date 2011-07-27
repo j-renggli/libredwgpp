@@ -1,12 +1,12 @@
 #include "decoder2004_2.h"
 
-#include "dwgbuffer.h"
+#include "../dwgbuffer.h"
 
 namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Decoder2004_2::decode(core::MemBuffer& raw, core::MemBuffer& out)
+core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffer& out)
 {
   DWGBuffer in(raw);
   out.setPosition(0);
@@ -57,7 +57,7 @@ core::ResultCode Decoder2004_2::decode(core::MemBuffer& raw, core::MemBuffer& ou
         bytelen = readOffsetLong(in) + 9;
         byteoffset = readOffset2b(in, litlen) + 0x3FFF;
       } else {
-        LOG_ERROR("Decompressing opcode " << opcode);
+        LOG_ERROR("Decompressing opcode " << std::hex << opcode << " after decompressing " << out.getSize() << " bytes");
         return core::rcFailure;
       }
 

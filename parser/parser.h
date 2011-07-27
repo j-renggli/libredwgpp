@@ -59,7 +59,7 @@ class Parser
     virtual core::ResultCode parsePreview();
 
   private:
-    core::ResultCode uncompress(core::MemBuffer& compressed, core::MemBuffer& clear, int type);
+//    core::ResultCode uncompress(core::IReadBuffer& compressed, core::MemBuffer& clear, int type);
 
   public:
     static core::ResultCode create(Archive& archive, boost::shared_ptr<Parser>& ptrLoader);

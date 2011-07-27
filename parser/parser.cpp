@@ -1,7 +1,8 @@
 #include "parser.h"
 
 #include "decoder.h"
-#include "parser2004.h"
+#include "r2004/parser2004.h"
+#include "r2004/sectionpage.h"
 
 #include <file/archive.h>
 
@@ -51,13 +52,6 @@ core::ResultCode Parser::create(Archive& archive, boost::shared_ptr<Parser>& ptr
 }
 
 ////////////////////////////////////////////////////////////////
-
-  class DataSection {
-    public:
-      int id_;
-      size_t address_;
-      size_t size_;
-  };
 
 core::ResultCode Parser::parse()
 {
@@ -115,90 +109,30 @@ core::ResultCode Parser::parse()
   ////////////////
   // System Section map
   ////////////////
-  rc = archive_.read(buffer, sectionMapOffset_, 20);
+  SectionPage sectionMap(archive_, sectionMapOffset_);
+  rc = sectionMap.restore();
   if (rc.isFailure())
     return rc;
-
-  memcpy(&verif, buffer.getBuffer(), 4);
-  if (verif != 0x41630e3b)
-  {
-    LOG_ERROR("Bad address leads to " << verif);
-    return core::rcFailure;
-  }
-
-  int32_t sizeUncomp;
-  int32_t sizeCompr;
-  int32_t compressionType;
-  int32_t checkSum;
-
-  memcpy(&sizeUncomp, &buffer.getBuffer()[4], 4);
-  memcpy(&sizeCompr, &buffer.getBuffer()[8], 4);
-  memcpy(&compressionType, &buffer.getBuffer()[12], 4);
-  memcpy(&checkSum, &buffer.getBuffer()[16], 4);
-
-  rc = archive_.read(buffer, sectionMapOffset_ + 20, sizeCompr);
-  if (rc.isFailure())
-    return rc;
-
-  core::MemBuffer clear;
-  clear.resize(sizeUncomp);
-//  fileBuffer_.read((char*)compressed.getBuffer(), sizeCompr);
-
-  boost::shared_ptr<Decoder> ptrDecoder = getDecoder(compressionType);
-  ptrDecoder->decode(buffer, clear);
-
-  clear.setPosition(0);
-
-  // Parse section pages
-  std::vector<DataSection> vSections;
-  int next = 0x100;
-  while (clear.getPosition() < clear.getSize())
-  {
-    DataSection data;
-    data.id_ = clear.read<int32_t>(false);
-    data.size_ = clear.read<int32_t>(false);
-    ASSERT(data.size_ > 0); // TODO: negative sizes !!!
-    data.address_ = next;
-    next = data.address_ + data.size_;
-
-    if (data.size_ < 0)
-    {
-      int parent = clear.read<int32_t>(false);
-      int left = clear.read<int32_t>(false);
-      int right = clear.read<int32_t>(false);
-      int x_what = clear.read<int32_t>(false);
-    }
-
-//std::cout << data.id_ << " ";
-    vSections.push_back(data);
-//    LOG_DEBUG(id << "\t" << size);
-  }
-  LOG_DEBUG("sizeUncomp " << sizeUncomp);
-  LOG_DEBUG("sizeCompr " << sizeCompr);
-  LOG_DEBUG("compressionType " << compressionType);
-  LOG_DEBUG("checkSum " << checkSum);
-
-LOG_DEBUG("Info " << secInfo << " - " << vSections.size() << " ... " << vSections[97].id_);
 
   // Test section 1:
-  rc = archive_.read(buffer, vSections[97].address_, vSections[97].size_);
-  if (rc.isFailure())
-    return rc;
-
-  memcpy(&verif, &buffer.getBuffer()[0], 4);
-  if (verif != 0x4163003b)
-  {
-    LOG_ERROR("Bad address leads to " << verif);
-    return core::rcFailure;
-  }
-  LOG_DEBUG("0x02 " << verif);
-  memcpy(&verif, &buffer.getBuffer()[8], 4);
-  LOG_DEBUG("0x7400 " << verif);
-  memcpy(&verif, &buffer.getBuffer()[12], 4);
-  LOG_DEBUG("0x0 " << verif);
-  int64_t xxx;
-  memcpy(&xxx, &buffer.getBuffer()[0x14], 4);
-  LOG_DEBUG("0x02 " << verif);
+//  rc = archive_.read(buffer, vSections[97].address_, vSections[97].size_);
+//  if (rc.isFailure())
+//    return rc;
+//
+//  memcpy(&verif, &buffer.getBuffer()[0], 4);
+//  if (verif != 0x4163003b)
+//  {
+//    LOG_ERROR("Bad address leads to " << verif);
+//    return core::rcFailure;
+//  }
+//  LOG_DEBUG("0x02 " << verif);
+//  memcpy(&verif, &buffer.getBuffer()[8], 4);
+//  LOG_DEBUG("0x7400 " << verif);
+//  memcpy(&verif, &buffer.getBuffer()[12], 4);
+//  LOG_DEBUG("0x0 " << verif);
+//  int64_t xxx;
+//  memcpy(&xxx, &buffer.getBuffer()[0x14], 4);
+//  LOG_DEBUG("0x02 " << verif);
 
 
 //
@@ -219,6 +153,7 @@ LOG_DEBUG("Info " << secInfo << " - " << vSections.size() << " ... " << vSection
 //  LOG_DEBUG("Rep. header " << repeatedHeader);
 //  LOG_DEBUG("Page id " << secPageMid);
 //  LOG_DEBUG("Page address " << sectionMapOffset_);
+  return core::rcSuccess;
 }
 
 ////////////////////////////////////////////////////////////////

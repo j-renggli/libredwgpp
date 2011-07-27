@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../includes.h"
+#include <file/archive.h>
+#include <parser/section.h>
 
 namespace libredwg2 {
 
-class Decoder
+class Section2004 : public Section
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
@@ -14,13 +15,23 @@ class Decoder
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
+  protected:
+    /// The archive to read from
+    Archive& archive_;
+
+    /// The section identifier
+
   private:
+    /// The offset where the section starts
+    size_t offset_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    virtual ~Decoder() {}
+    Section2004(Archive& archive, size_t offset);
+
+    virtual ~Section2004() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -31,7 +42,12 @@ class Decoder
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual core::ResultCode decode(core::IReadBuffer& raw, core::IWriteBuffer& out) = 0;
+    virtual core::ResultCode restore();
+
+  private:
+    virtual int32_t getGuard() const = 0;
+
+    virtual core::ResultCode restoreData(core::IReadBuffer& buffer) = 0;
 };
 
 ////////////////////////////////////////////////////////////////

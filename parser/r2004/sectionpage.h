@@ -1,28 +1,33 @@
 #pragma once
 
-#include "parser.h"
+#include "section2004.h"
 
 namespace libredwg2 {
 
-class Parser2004 : public Parser
+class SectionPage : public Section2004
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  private:
+  public:
+    typedef std::map<int32_t, boost::shared_ptr<Section2004> > SectionsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
+    /// All sections listed here
+    SectionsMap mSections_;
+
+    static const int32_t s_guard;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2004(Archive& archive);
+    SectionPage(Archive& archive, size_t offset);
 
-    virtual ~Parser2004();
+    virtual ~SectionPage() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -32,13 +37,10 @@ class Parser2004 : public Parser
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
-  public:
-    virtual Parser::Release getVersionNumber() const { return Parser::R2004; }
-
   private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
-//    virtual core::ResultCode parse();
+    virtual int32_t getGuard() const { return s_guard; }
 
+    virtual core::ResultCode restoreData(core::IReadBuffer& buffer);
 };
 
 ////////////////////////////////////////////////////////////////

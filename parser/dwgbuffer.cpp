@@ -4,7 +4,7 @@ namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
 
-DWGBuffer::DWGBuffer(const core::MemBuffer& buffer) :
+DWGBuffer::DWGBuffer(const core::IReadBuffer& buffer) :
 buffer_(buffer),
 offset_(0),
 last_(0)

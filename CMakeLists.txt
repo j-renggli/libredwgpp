@@ -20,10 +20,13 @@ errorcodes.cpp
 
 file/archive.cpp
 
-parser/decoder2004_2.cpp
 parser/dwgbuffer.cpp
 parser/parser.cpp
-parser/parser2004.cpp
+parser/r2004/decoder2004_2.cpp
+parser/r2004/parser2004.cpp
+parser/r2004/section2004.cpp
+parser/r2004/sectiondata.cpp
+parser/r2004/sectionpage.cpp
 )
 
 ######## LINKER ########

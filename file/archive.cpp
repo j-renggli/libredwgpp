@@ -60,35 +60,6 @@ core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost
   rc = ptrParser->parse();
   if (rc.isFailure())
     return rc;
-//  uiPos_ = 0;
-//  uiSize_ = 4096;
-//  char pTemp[4096];
-//  while (true)
-//  {
-//    fileIn.read(pTemp, uiSize_);
-//    if (fileIn.bad())
-//    {
-//      return rcFailure;
-//    }
-//
-//    size_t uiCount = fileIn.gcount();
-//    if (uiCount == 0)
-//      break;
-//    Buffer* pNewBuffer = new Buffer[uiPos_ + uiCount];
-//    memcpy(pNewBuffer, pBuffer_, uiPos_);
-//    memcpy(pNewBuffer+uiPos_, pTemp, uiCount);
-//    delete[] pBuffer_;
-//    pBuffer_ = pNewBuffer;
-//    uiPos_ += uiCount;
-//
-//    if (uiCount < uiSize_)
-//      break;
-//  }
-//
-//  uiSize_ = uiPos_;
-//  uiPos_ = 0;
-//
-//  fileIn.close();
 
   return core::rcSuccess;
 }

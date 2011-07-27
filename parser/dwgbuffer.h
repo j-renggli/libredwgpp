@@ -28,7 +28,7 @@ class DWGBuffer
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    DWGBuffer(const core::MemBuffer& buffer);
+    DWGBuffer(const core::IReadBuffer& buffer);
 
     virtual ~DWGBuffer() {}
 
