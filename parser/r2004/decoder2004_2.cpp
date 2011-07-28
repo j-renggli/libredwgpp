@@ -11,10 +11,10 @@ core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffe
   DWGBuffer in(raw);
   out.setPosition(0);
 
-  int opcode = 0;
-  int litlen = readLiteralLength(in, opcode);
+  uint8_t opcode = 0;
+  uint32_t litlen = readLiteralLength(in, opcode);
 
-  for (int i = 0; i < litlen; ++i)
+  for (uint32_t i = 0; i < litlen; ++i)
     out.write(in.readRC());
 
   //opcode1 = 0x00;
@@ -26,15 +26,15 @@ core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffe
     }
 
 //    LOG_DEBUG(opcode);
-    int bytelen = 0;
-    int byteoffset = 0;
+    uint32_t bytelen = 0;
+    uint32_t byteoffset = 0;
 
     if (opcode == 0x11) {
       break; // Terminates the input stream, everything is ok!
     } else if (opcode >= 0x40) {
       bytelen = ((opcode & 0xF0) >> 4) - 1;
-      int opnew = in.readRC();
-      byteoffset = (opnew << 2) | ((opcode & 0x0C) >> 2);
+      uint32_t opnew = in.readRC();
+      byteoffset = (opnew << 2) | uint32_t((opcode & 0x0C) >> 2);
 
       if (opcode & 0x03)
       {
@@ -69,11 +69,11 @@ core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffe
 
     // Copy compressed data
     int current = out.getPosition();
-    for (int i = 0; i < bytelen; ++i)
+    for (uint32_t i = 0; i < bytelen; ++i)
       out.write<core::Buffer>(out.getBuffer()[current - byteoffset + i - 1]);
 
     // Copy data directly
-    for (int i = 0; i < litlen; ++i)
+    for (uint32_t i = 0; i < litlen; ++i)
       out.write(in.readRC());
   }
 
@@ -84,10 +84,10 @@ core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffe
 
 ////////////////////////////////////////////////////////////////
 
-int Decoder2004_2::readLiteralLength(DWGBuffer& in, int& opcode)
+uint32_t Decoder2004_2::readLiteralLength(DWGBuffer& in, uint8_t& opcode)
 {
-  int total = 0;
-  int8_t byte = in.readRC();
+  uint32_t total = 0;
+  uint8_t byte = in.readRC();
 
   opcode = 0x00;
 
@@ -108,10 +108,10 @@ int Decoder2004_2::readLiteralLength(DWGBuffer& in, int& opcode)
 
 ////////////////////////////////////////////////////////////////
 
-int Decoder2004_2::readOffset2b(DWGBuffer& in, int& litlen)
+uint32_t Decoder2004_2::readOffset2b(DWGBuffer& in, uint32_t& litlen)
 {
-  int8_t first = in.readRC();
-  int8_t second = in.readRC();
+  uint32_t first = in.readRC();
+  uint32_t second = in.readRC();
 
   litlen = first & 0x03;
   return (first >> 2) | (second << 6);
@@ -119,9 +119,9 @@ int Decoder2004_2::readOffset2b(DWGBuffer& in, int& litlen)
 
 ////////////////////////////////////////////////////////////////
 
-int Decoder2004_2::readOffsetLong(DWGBuffer& in)
+uint32_t Decoder2004_2::readOffsetLong(DWGBuffer& in)
 {
-  int total = 0;
+  uint32_t total = 0;
   int8_t byte = in.readRC();
   if (byte == 0)
   {

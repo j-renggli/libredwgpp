@@ -36,11 +36,11 @@ class Decoder2004_2 : public Decoder
     virtual core::ResultCode decode(core::IReadBuffer& raw, core::IWriteBuffer& out);
 
   private:
-    int readLiteralLength(DWGBuffer& in, int& opcode);
+    uint32_t readLiteralLength(DWGBuffer& in, uint8_t& opcode);
 
-    int readOffset2b(DWGBuffer& in, int& litlen);
+    uint32_t readOffset2b(DWGBuffer& in, uint32_t& litlen);
 
-    int readOffsetLong(DWGBuffer& in);
+    uint32_t readOffsetLong(DWGBuffer& in);
 };
 
 ////////////////////////////////////////////////////////////////

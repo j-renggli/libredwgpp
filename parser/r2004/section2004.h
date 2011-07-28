@@ -17,19 +17,22 @@ class Section2004 : public Section
   ////////////////////////////////////////////////////////////////
   protected:
     /// The archive to read from
-    Archive& archive_;
+//    Archive& archive_;
 
     /// The section identifier
 
   private:
     /// The offset where the section starts
-    size_t offset_;
+//    size_t offset_;
+
+    static const int32_t s_guardData;
+    static const int32_t s_guardPage;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Section2004(Archive& archive, size_t offset);
+    Section2004();//Archive& archive, size_t offset);
 
     virtual ~Section2004() {}
 
@@ -42,10 +45,11 @@ class Section2004 : public Section
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual core::ResultCode restore();
+    /// Restore a section chosing the correct type
+    static core::ResultCode restore(Archive& archive, size_t offset, boost::shared_ptr<Section2004>& ptrSection);
 
   private:
-    virtual int32_t getGuard() const = 0;
+//    virtual int32_t getGuard() const = 0;
 
     virtual core::ResultCode restoreData(core::IReadBuffer& buffer) = 0;
 };

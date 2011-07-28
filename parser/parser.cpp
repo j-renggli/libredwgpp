@@ -2,7 +2,7 @@
 
 #include "decoder.h"
 #include "r2004/parser2004.h"
-#include "r2004/sectionpage.h"
+#include "r2004/section2004.h"
 
 #include <file/archive.h>
 
@@ -109,8 +109,13 @@ core::ResultCode Parser::parse()
   ////////////////
   // System Section map
   ////////////////
-  SectionPage sectionMap(archive_, sectionMapOffset_);
-  rc = sectionMap.restore();
+  //TODO test
+  boost::shared_ptr<Section2004> ptrSectionPage;
+  rc = Section2004::restore(archive_, sectionMapOffset_, ptrSectionPage);
+  if (rc.isFailure())
+    return rc;
+
+  rc = Section2004::restore(archive_, 1540352, ptrSectionPage);
   if (rc.isFailure())
     return rc;
 

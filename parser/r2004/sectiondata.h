@@ -15,13 +15,13 @@ class SectionData : public Section2004
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    static const int32_t s_guard;
+//    static const int32_t s_guard;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    SectionData(Archive& archive, size_t offset);
+    SectionData();//Archive& archive, size_t offset);
 
     virtual ~SectionData() {}
 
@@ -34,7 +34,7 @@ class SectionData : public Section2004
   // Functions
   ////////////////////////////////////////////////////////////////
   private:
-    virtual int32_t getGuard() const { return s_guard; }
+//    virtual int32_t getGuard() const { return s_guard; }
 
     virtual core::ResultCode restoreData(core::IReadBuffer& buffer);
 };

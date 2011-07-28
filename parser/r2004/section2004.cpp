@@ -2,52 +2,55 @@
 
 // TODO
 #include "decoder2004_2.h"
+#include "sectiondata.h"
+#include "sectionpage.h"
 
 namespace libredwg2 {
 
+const int32_t Section2004::s_guardData = 0x4163003b;
+const int32_t Section2004::s_guardPage = 0x41630e3b;
+
 ////////////////////////////////////////////////////////////////
 
-Section2004::Section2004(Archive& archive, size_t offset) :
-archive_(archive),
-offset_(offset)
+Section2004::Section2004()//Archive& archive, size_t offset) :
+//archive_(archive),
+//offset_(offset)
 {
 }
 
 ////////////////////////////////////////////////////////////////
 
-//  class DataSection {
-//    public:
-//      int id_;
-//      size_t address_;
-//      size_t size_;
-//  };
-
-core::ResultCode Section2004::restore()
+core::ResultCode Section2004::restore(Archive& archive, size_t offset, boost::shared_ptr<Section2004>& ptrSection)
 {
   const size_t infoLen = 20;
   core::MemBuffer buffer;
-  core::ResultCode rc = archive_.read(buffer, offset_, infoLen);
+  core::ResultCode rc = archive.read(buffer, offset, infoLen);
   if (rc.isFailure())
     return rc;
 
   int32_t guard = buffer.read<int32_t>(false);
-  if (guard != getGuard())
-  {
-    LOG_ERROR("Expected " << getGuard() << ", got " << guard);
-    return core::rcFailure;
-  }
-
   int32_t sizeUncomp = buffer.read<int32_t>(false);
   int32_t sizeCompr = buffer.read<int32_t>(false);
   int32_t compressionType = buffer.read<int32_t>(false);
   int32_t checkSum = buffer.read<int32_t>(false);
 
+  LOG_DEBUG("Guard " << guard);
   LOG_DEBUG("sizeUncomp " << sizeUncomp);
   LOG_DEBUG("sizeCompr " << sizeCompr);
   LOG_DEBUG("compressionType " << compressionType);
   LOG_DEBUG("checkSum " << checkSum);
 
-  rc = archive_.read(buffer, offset_ + infoLen, sizeCompr);
+  if (guard == s_guardData) {
+    ptrSection.reset(new SectionData);
+  } else if (guard == s_guardPage) {
+    ptrSection.reset(new SectionPage);
+  } else {
+    ptrSection.reset();
+    LOG_ERROR("Guard is " << std::hex << guard);
+    return core::rcFailure;
+  }
+
+  rc = archive.read(buffer, offset + infoLen, sizeCompr);
   if (rc.isFailure())
     return rc;
 
@@ -61,7 +64,7 @@ core::ResultCode Section2004::restore()
 
   clear.setPosition(0);
 
-  return restoreData(clear);
+  return ptrSection->restoreData(clear);
 }
 
 ////////////////////////////////////////////////////////////////

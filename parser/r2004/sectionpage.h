@@ -10,7 +10,18 @@ class SectionPage : public Section2004
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
-    typedef std::map<int32_t, boost::shared_ptr<Section2004> > SectionsMap;
+    class Page
+    {
+      private:
+//        int id_;
+        const int32_t offset_;
+//        int32_t parent_;
+
+      public:
+        Page(int32_t offset);
+    };
+
+    typedef std::map<int32_t, Page> SectionsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members
@@ -19,13 +30,13 @@ class SectionPage : public Section2004
     /// All sections listed here
     SectionsMap mSections_;
 
-    static const int32_t s_guard;
+//    static const int32_t s_guard;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    SectionPage(Archive& archive, size_t offset);
+    SectionPage();//Archive& archive, size_t offset);
 
     virtual ~SectionPage() {}
 
@@ -38,7 +49,7 @@ class SectionPage : public Section2004
   // Functions
   ////////////////////////////////////////////////////////////////
   private:
-    virtual int32_t getGuard() const { return s_guard; }
+//    virtual int32_t getGuard() const { return s_guard; }
 
     virtual core::ResultCode restoreData(core::IReadBuffer& buffer);
 };
