@@ -1,38 +1,30 @@
 #pragma once
 
-#include "../parser.h"
+#include "section2004.h"
 
 namespace libredwg2 {
 
-class SectionInfo;
-class SectionMap;
-
-class Parser2004 : public Parser
+class SectionObjects : public Section2004
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  private:
+  public:
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// Map to all sections
-    size_t mapOffset_;
-    boost::scoped_ptr<SectionMap> ptrMap_;
 
-    /// Info about each part of the archive
-    size_t infoOffset_;
-    boost::scoped_ptr<SectionInfo> ptrInfo_;
+    static const int32_t s_guard;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2004(Archive& archive);
+    SectionObjects(Archive& archive, const std::vector<Page>& multiple);
 
-    virtual ~Parser2004();
+    virtual ~SectionObjects() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -43,17 +35,11 @@ class Parser2004 : public Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual Parser::Release getVersionNumber() const { return Parser::R2004; }
 
   private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
-//    virtual core::ResultCode parse();
+    virtual int32_t getGuard() const { return s_guard; }
 
-    virtual core::ResultCode parseFileHeader();
-    virtual core::ResultCode parseInfo();
-    virtual core::ResultCode parseMap();
-    virtual core::ResultCode parseObjects();
-
+    virtual core::ResultCode restoreData(DWGBuffer& buffer);
 };
 
 ////////////////////////////////////////////////////////////////

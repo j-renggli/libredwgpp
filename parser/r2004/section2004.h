@@ -1,9 +1,14 @@
 #pragma once
 
+#include "../page.h"
+
 #include <file/archive.h>
 #include <parser/section.h>
 
 namespace libredwg2 {
+
+class DWGBuffer;
+class SectionMap;
 
 class Section2004 : public Section
 {
@@ -11,28 +16,28 @@ class Section2004 : public Section
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
+    typedef std::vector<Page> PageVector;
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   protected:
     /// The archive to read from
-//    Archive& archive_;
+    Archive& archive_;
 
     /// The section identifier
 
   private:
-    /// The offset where the section starts
-//    size_t offset_;
-
-    static const int32_t s_guardData;
-    static const int32_t s_guardPage;
+    /// Multiple pages to read
+    PageVector vPages_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Section2004();//Archive& archive, size_t offset);
+    Section2004(Archive& archive, const Page& single);
+
+    Section2004(Archive& archive, const std::vector<Page>& multiple);
 
     virtual ~Section2004() {}
 
@@ -46,12 +51,18 @@ class Section2004 : public Section
   ////////////////////////////////////////////////////////////////
   public:
     /// Restore a section chosing the correct type
-    static core::ResultCode restore(Archive& archive, size_t offset, boost::shared_ptr<Section2004>& ptrSection);
+//    static core::ResultCode restore(Archive& archive, size_t offset, boost::shared_ptr<Section2004>& ptrSection);
+
+    /// Restore for basic data (map & info)
+    virtual core::ResultCode restore();
+
+    /// Restore from multiple sections
+    virtual core::ResultCode restoreMultiple(const SectionMap& map);
 
   private:
-//    virtual int32_t getGuard() const = 0;
+    virtual int32_t getGuard() const = 0;
 
-    virtual core::ResultCode restoreData(core::IReadBuffer& buffer) = 0;
+    virtual core::ResultCode restoreData(DWGBuffer& buffer) = 0;
 };
 
 ////////////////////////////////////////////////////////////////

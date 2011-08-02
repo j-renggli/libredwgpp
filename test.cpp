@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
 
   libredwg2::Archive parser;
   boost::shared_ptr<libredwg2::Schema> ptrSchema;
-  LOG_DEBUG(parser.restore("www/Villa.dwg", ptrSchema));
+//  LOG_DEBUG(parser.restore("www/Villa.dwg", ptrSchema));
+  LOG_DEBUG(parser.restore("libredwg/examples/example.dwg", ptrSchema));
   return 0;
 }

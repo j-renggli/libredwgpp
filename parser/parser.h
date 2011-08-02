@@ -23,14 +23,14 @@ class Parser
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
-  private:
+  protected:
     Archive& archive_;
-
-    int32_t previewOffset_;
-    int16_t codepage_;
-    int32_t securityFlags_;
-    int32_t summaryOffset_;
-    int32_t sectionMapOffset_;
+//
+//    int32_t previewOffset_;
+//    int16_t codepage_;
+//    int32_t securityFlags_;
+//    int32_t summaryOffset_;
+//    int32_t sectionMapOffset_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
@@ -56,7 +56,11 @@ class Parser
   private:
     virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod) = 0;
 
+    virtual core::ResultCode parseFileHeader() = 0;
     virtual core::ResultCode parsePreview();
+    virtual core::ResultCode parseInfo() = 0;
+    virtual core::ResultCode parseMap() = 0;
+    virtual core::ResultCode parseObjects() = 0;
 
   private:
 //    core::ResultCode uncompress(core::IReadBuffer& compressed, core::MemBuffer& clear, int type);

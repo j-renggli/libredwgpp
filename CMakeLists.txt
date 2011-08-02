@@ -22,11 +22,16 @@ file/archive.cpp
 
 parser/dwgbuffer.cpp
 parser/parser.cpp
+
+parser/r2000/parser2000.cpp
+
 parser/r2004/decoder2004_2.cpp
 parser/r2004/parser2004.cpp
 parser/r2004/section2004.cpp
-parser/r2004/sectiondata.cpp
-parser/r2004/sectionpage.cpp
+parser/r2004/sectionclasses.cpp
+parser/r2004/sectioninfo.cpp
+parser/r2004/sectionmap.cpp
+parser/r2004/sectionobjects.cpp
 )
 
 ######## LINKER ########

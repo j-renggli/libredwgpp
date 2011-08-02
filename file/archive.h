@@ -48,7 +48,8 @@ class Archive
     /// @param buffer the buffer to write data into
     /// @param pos the start position in the file
     /// @param len the length of data to read
-    core::ResultCode read(core::IWriteBuffer& buffer, size_t pos, size_t len);
+    /// @param strict if set to false will read as much as possible even if less than len
+    core::ResultCode read(core::IWriteBuffer& buffer, size_t pos, size_t len, bool strict = true);
 };
 
 ////////////////////////////////////////////////////////////////

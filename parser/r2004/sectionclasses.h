@@ -4,41 +4,25 @@
 
 namespace libredwg2 {
 
-class SectionPage : public Section2004
+class SectionClasses : public Section2004
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
-    class Page
-    {
-      private:
-//        int id_;
-        const int32_t offset_;
-//        int32_t parent_;
-
-      public:
-        Page(int32_t offset);
-    };
-
-    typedef std::map<int32_t, Page> SectionsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// All sections listed here
-    SectionsMap mSections_;
-
-//    static const int32_t s_guard;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    SectionPage();//Archive& archive, size_t offset);
+    SectionClasses(Archive& archive, const std::vector<Page>& multiple);
 
-    virtual ~SectionPage() {}
+    virtual ~SectionClasses() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -48,10 +32,12 @@ class SectionPage : public Section2004
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
-  private:
-//    virtual int32_t getGuard() const { return s_guard; }
+  public:
 
-    virtual core::ResultCode restoreData(core::IReadBuffer& buffer);
+  private:
+    virtual int32_t getGuard() const { return 0; }
+
+    virtual core::ResultCode restoreData(DWGBuffer& buffer);
 };
 
 ////////////////////////////////////////////////////////////////

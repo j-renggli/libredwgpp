@@ -1,38 +1,36 @@
 #pragma once
 
-#include "../parser.h"
+#include "../page.h"
+#include "section2004.h"
 
 namespace libredwg2 {
 
-class SectionInfo;
-class SectionMap;
+class DWGBuffer;
 
-class Parser2004 : public Parser
+class SectionMap : public Section2004
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  private:
+  public:
+    typedef std::map<int32_t, Page> SectionsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// Map to all sections
-    size_t mapOffset_;
-    boost::scoped_ptr<SectionMap> ptrMap_;
+    /// All sections listed here
+    SectionsMap mSections_;
 
-    /// Info about each part of the archive
-    size_t infoOffset_;
-    boost::scoped_ptr<SectionInfo> ptrInfo_;
+    static const int32_t s_guard;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2004(Archive& archive);
+    SectionMap(Archive& archive, const Page& single);
 
-    virtual ~Parser2004();
+    virtual ~SectionMap() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -43,17 +41,12 @@ class Parser2004 : public Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual Parser::Release getVersionNumber() const { return Parser::R2004; }
+    const Page* findPage(int32_t id) const;
 
   private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
-//    virtual core::ResultCode parse();
+    virtual int32_t getGuard() const { return s_guard; }
 
-    virtual core::ResultCode parseFileHeader();
-    virtual core::ResultCode parseInfo();
-    virtual core::ResultCode parseMap();
-    virtual core::ResultCode parseObjects();
-
+    virtual core::ResultCode restoreData(DWGBuffer& buffer);
 };
 
 ////////////////////////////////////////////////////////////////

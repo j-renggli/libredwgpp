@@ -1,29 +1,45 @@
 #pragma once
 
-#include "section2004.h"
+#include "../page.h"
+#include "../parser.h"
 
 namespace libredwg2 {
 
-class SectionData : public Section2004
+//class SectionInfo;
+//class SectionMap;
+
+class Parser2000 : public Parser
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  public:
+  private:
+    enum Type {
+      HEADER = 0,
+      CLASS = 1,
+      OBJECT = 2,
+      SPECIAL = 3,
+      MEASUREMENT = 4,
+      OTHER = 5
+    };
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-//    static const int32_t s_guard;
+    /// Map to all sections
+    std::vector<Page> vPages_;
+
+    /// Info about each part of the archive
+//    boost::scoped_ptr<SectionInfo> ptrInfo_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    SectionData();//Archive& archive, size_t offset);
+    Parser2000(Archive& archive);
 
-    virtual ~SectionData() {}
+    virtual ~Parser2000();
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -33,10 +49,17 @@ class SectionData : public Section2004
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
-  private:
-//    virtual int32_t getGuard() const { return s_guard; }
+  public:
+    virtual Parser::Release getVersionNumber() const { return Parser::R2000; }
 
-    virtual core::ResultCode restoreData(core::IReadBuffer& buffer);
+  private:
+    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
+
+    virtual core::ResultCode parseFileHeader();
+    virtual core::ResultCode parseInfo();
+    virtual core::ResultCode parseMap();
+    virtual core::ResultCode parseObjects();
+
 };
 
 ////////////////////////////////////////////////////////////////

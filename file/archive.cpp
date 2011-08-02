@@ -18,10 +18,15 @@ Archive::~Archive()
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Archive::read(core::IWriteBuffer& buffer, size_t pos, size_t len)
+core::ResultCode Archive::read(core::IWriteBuffer& buffer, size_t pos, size_t len, bool strict)
 {
   if (pos + len > size_)
-    return rcOutOfBounds;
+  {
+    if (strict)
+      return rcOutOfBounds;
+    else
+      len = size_ - pos;
+  }
 
   buffer.resize(len);
   fileStream_.seekg(pos);

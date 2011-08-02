@@ -31,6 +31,7 @@ class Decoder
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
+    /// Decode the given raw input and APPEND the result to the output buffer.
     virtual core::ResultCode decode(core::IReadBuffer& raw, core::IWriteBuffer& out) = 0;
 };
 
