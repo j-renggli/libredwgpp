@@ -2,21 +2,28 @@
 
 #include "../dwgbuffer.h"
 
+#include "sectionmap.h"
+
 namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffer& out)
+core::ResultCode Decoder2004_2::decode(DWGBuffer& in, core::IWriteBuffer& out)
 {
-  DWGBuffer in(raw);
+//  DWGBuffer in(raw);
 
   uint8_t opcode = 0;
   uint32_t litlen = readLiteralLength(in, opcode);
+//LOG_DEBUG(litlen << " litlen");
 
   for (uint32_t i = 0; i < litlen; ++i)
     out.write(in.readRaw8());
-//LOG_DEBUG(raw.getSize());
+//LOG_DEBUG(in.getBuffer().getSize());
+//LOG_DEBUG(out.getSize());
+//LOG_DEBUG(in.getPosition());
+//LOG_DEBUG(out.getPosition());
 //  opcode = 0x00;
+//LOG_DEBUG("");
   while (in.hasMore())
   {
     if (opcode == 0x00)
@@ -66,6 +73,8 @@ core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffe
         litlen = readLiteralLength(in, opcode);
     }
 
+//    LOG_DEBUG(bytelen << " " << litlen);
+
     // Copy compressed data
     uint32_t current = out.getPosition();
 //    LOG_DEBUG(current << " " << (int)bytelen << " " << byteoffset << " " << out.getSize());
@@ -86,6 +95,72 @@ core::ResultCode Decoder2004_2::decode(core::IReadBuffer& raw, core::IWriteBuffe
 //LOG_DEBUG("x");
   LOG_DEBUG(out.getSize() << " bytes written");
 
+  return core::rcSuccess;
+}
+
+////////////////////////////////////////////////////////////////
+
+core::ResultCode Decoder2004_2::decode(Archive& archive, const SectionMap& map, const std::vector<Page>& vPages, DWGBuffer& buffer)
+{
+  if (vPages.empty())
+  {
+    LOG_ERROR("No pages to restore!");
+    return core::rcFailure;
+  }
+//LOG_DEBUG(vPages[0].size_);
+  DWGBuffer raw;
+//  core::MemBuffer raw;
+  buffer.setPosition(0);
+//  core::MemBuffer raw, clear;
+//  clear.reserve(/*pObjSec->getPageSize()*/ 0x7400 * vPages_.size());
+
+  for (size_t i = 0; i < vPages.size(); ++i)
+  {
+    const Page& page = vPages[i];
+
+    const size_t offset = map.findPage(page.id_)->offset_;
+//LOG_DEBUG(offset << " vs " << page.offset_);
+    archive.read(raw.getBuffer(), offset, 0x20);
+    const uint32_t mask = 0x4164536b ^ offset;
+    raw.setPosition(0);
+    uint32_t* pBuffer = (uint32_t*)raw.getBuffer().getBuffer();
+
+    for (int i = 0; i < 8; ++i)
+      pBuffer[i] ^= mask;
+
+    size_t guard = raw.readRaw32();
+    size_t sectionID = raw.readRaw32();
+    size_t encodedSize = raw.readRaw32();
+    size_t decodedSize = raw.readRaw32();
+    size_t startOffset = raw.readRaw32(); // Start offset in the decompressed buffer
+    size_t unknown = raw.readRaw32();
+    size_t checksum_1 = raw.readRaw32();
+    size_t checksum_2 = raw.readRaw32();
+
+//LOG_DEBUG(buffer.getBuffer().getPosition() << " " << buffer.getPosition());
+//    LOG_DEBUG("guard " << guard);
+//    LOG_DEBUG("sectionID " << sectionID);
+//    LOG_DEBUG("encodedSize " << encodedSize);
+//    LOG_DEBUG("decodedSize " << decodedSize);
+//    LOG_DEBUG(">>" << startOffset);
+////    LOG_DEBUG("CRC " << checksum_1);
+////    LOG_DEBUG("CRC " << checksum_2);
+
+    if (guard != 0x4163043b) {
+      LOG_ERROR("Guard is " << std::hex << guard << " expected " << 0x4163043b);
+      return core::rcFailure;
+    }
+
+    raw.setPosition(0);
+    archive.read(raw.getBuffer(), offset + 0x20, encodedSize);
+    core::ResultCode rc = decode(raw, buffer.getBuffer());
+    if (rc.isFailure())
+      return rc;
+//break;
+  }
+
+//  DWGBuffer data(clear);
+//  return restoreData(data);
   return core::rcSuccess;
 }
 

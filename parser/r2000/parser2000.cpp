@@ -16,6 +16,7 @@ namespace libredwg2 {
 Parser2000::Parser2000(Archive& archive) :
 Parser(archive)
 {
+  version_.setRelease(Version::R2000);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -31,6 +32,34 @@ boost::shared_ptr<Decoder> Parser2000::getDecoder(int method)
   LOG_ERROR("TODO");
   return boost::shared_ptr<Decoder>();
 //  return boost::shared_ptr<Decoder2004_2>(new Decoder2004_2);
+}
+
+////////////////////////////////////////////////////////////////
+
+core::ResultCode Parser2000::getSectionBuffer(Section::Type st, DWGBuffer& buffer)
+{
+  size_t index = size_t(-1);
+  switch (st)
+  {
+    case Section::Classes:
+      index = CLASS;
+      break;
+    default:
+      break;
+  }
+
+  if (index >= vPages_.size())
+  {
+    LOG_ERROR("Section " << st << " not found");
+    return core::rcFailure;
+  }
+
+LOG_DEBUG("Address " << std::hex << vPages_[index].offset_);
+LOG_DEBUG("Size " << vPages_[index].size_);
+LOG_DEBUG("End     " << std::hex << (vPages_[index].offset_ + vPages_[index].size_));
+
+  buffer.setPosition(0);
+  return archive_.read(buffer.getBuffer(), vPages_[index].offset_, vPages_[index].size_);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -93,28 +122,6 @@ core::ResultCode Parser2000::parseMap()
 
   return core::rcSuccess;
 }
-
-////////////////////////////////////////////////////////////////
-
-//core::ResultCode Parser2004::parseClasses()
-//{
-//  // If info, then map !
-//  if (ptrInfo_ == NULL)
-//  {
-//    LOG_ERROR("No section info to be found");
-//    return core::rcFailure;
-//  }
-//
-//  const SectionInfo::Subsection* pClassSec = ptrInfo_->findSubsection(SectionInfo::Subsection::CLASSES);
-//  if (pClassSec == NULL)
-//  {
-//    LOG_ERROR("Could not find classes' subsection ");
-//    return core::rcFailure;
-//  }
-//  SectionClasses sc(archive_, pClassSec->getPages());
-//  core::ResultCode rc = sc.restoreMultiple(*ptrMap_);
-//  return rc;
-//}
 
 ////////////////////////////////////////////////////////////////
 
@@ -292,172 +299,12 @@ else
     sgdc1 = data.readRaw8();
     uint32_t ckr = (sgdc0 << 8) | sgdc1;
 
-//      sgdc[0] = bit_read_RC(dat);
-//      sgdc[1] = bit_read_RC(dat);
-//      ckr = (sgdc[0] << 8) | sgdc[1];
-//
-//      ckr2 = bit_ckr8(0xc0c1, dat->chain + duabyte, section_size);
-//
-//      if (ckr != ckr2)
-//        {
-//          printf("section %d crc todo ckr:%x ckr2:%x\n",
-//                  dwg->header.section[2].number, ckr, ckr2);
-//          return -1;
-//        }
-//
-//      if (dat->byte >= maplasta)
-//        break;
-//
     if (sectionSize <= 2) break; //TODO
   }
-
-//  maplasta = dat->byte + dwg->header.section[2].size; // 4
-//  dwg->num_objects = 0;
-//  object_begin = dat->size;
-//  object_end = 0;
-//  do
-//    {
-//      long unsigned int last_address;
-//      long unsigned int last_handle;
-//      long unsigned int previous_address = 0;
-//
-//      duabyte = dat->byte;
-//      //LOG_TRACE("section_size: %u\n", section_size)
-//      if (section_size > 2035)
-//          return -1;
-//
-//      last_handle = 0;
-//      last_address = 0;
-//      while (dat->byte - duabyte < section_size)
-//        {
-//          long unsigned int kobj;
-//          long int pvztkt;
-//          long int pvzadr;
-//
-//          previous_address = dat->byte;
-//          pvztkt = bit_read_MC(dat);
-//          last_handle += pvztkt;
-//          pvzadr = bit_read_MC(dat);
-//          last_address += pvzadr;
-//          // LOG_TRACE("Idc: %li\t", dwg->num_objects)
-//          // LOG_TRACE("Handle: %li\tAddress: %li", pvztkt, pvzadr)
-//          //}
-//          if (dat->byte == previous_address)
-//            break;
-//          //if (dat->byte - duabyte >= seksize)
-//          //break;
-//
-//          if (object_end < last_address)
-//            object_end = last_address;
-//          if (object_begin > last_address)
-//            object_begin = last_address;
-//
-//          kobj = dwg->num_objects;
-//          dwg_decode_add_object(dwg, dat, last_address);
-//          //if (dwg->num_objects > kobj)
-//          //dwg->object[dwg->num_objects - 1].handle.value = lastahandle;
-//          //TODO: blame Juca
-//        }
-//      if (dat->byte == previous_address)
-//        break;
-//
-//      // CRC on
-//      if (dat->bit > 0)
-//        {
-//          dat->byte += 1;
-//          dat->bit = 0;
-//        }
-//
-//      sgdc[0] = bit_read_RC(dat);
-//      sgdc[1] = bit_read_RC(dat);
-//      ckr = (sgdc[0] << 8) | sgdc[1];
-//
-//      ckr2 = bit_ckr8(0xc0c1, dat->chain + duabyte, section_size);
-//
-//      if (ckr != ckr2)
-//        {
-//          printf("section %d crc todo ckr:%x ckr2:%x\n",
-//                  dwg->header.section[2].number, ckr, ckr2);
-//          return -1;
-//        }
-//
-//      if (dat->byte >= maplasta)
-//        break;
-//    }
-//  while (section_size > 2);
-
-
-
-
-
-
-//  // If info, then map !
-//  if (ptrInfo_ == NULL)
-//  {
-//    LOG_ERROR("No section info to be found");
-//    return core::rcFailure;
-////  } else if (ptrObjects_ != NULL) {
-////    LOG_ERROR("Section objects already exists");
-////    return core::rcFailure;
-//  }
-//
-//  const SectionInfo::Subsection* pObjSec = ptrInfo_->findSubsection(SectionInfo::Subsection::OBJECTS);
-//  if (pObjSec == NULL)
-//  {
-//    LOG_ERROR("Could not find objects' subsection ");
-//    return core::rcFailure;
-//  }
-//  SectionObjects so(archive_, pObjSec->getPages());
-//LOG_DEBUG("c/e " << pObjSec->isCompressed() << " " << pObjSec->isEncrypted());
-//  core::ResultCode rc = so.restoreMultiple(*ptrMap_);
-//  return rc;
 
   return core::rcSuccess;
 }
 
 ////////////////////////////////////////////////////////////////
 
-//  long unsigned int previous_address;
-//  long unsigned int object_address;
-//  unsigned char previous_bit;
-//  Dwg_Object *obj;
-//
-//  /* Keep the previous address
-//   */
-//  previous_address = dat->byte;
-//  previous_bit = dat->bit;
-//
-//  /* Use the indicated address for the object
-//   */
-//  dat->byte = address;
-//  dat->bit = 0;
-//
-//  /*
-//   * Reserve memory space for objects
-//   */
-//  if (dwg->num_objects == 0)
-//    dwg->object = (Dwg_Object *) malloc(sizeof(Dwg_Object));
-//  else
-//    dwg->object = (Dwg_Object *) realloc(dwg->object, (dwg->num_objects + 1)
-//        * sizeof(Dwg_Object));
-//
-//  if (loglevel)
-//      LOG_INFO("\n\n======================\nObject number: %lu",
-//          dwg->num_objects)
-//
-//  obj = &dwg->object[dwg->num_objects];
-//  obj->index = dwg->num_objects;
-//  dwg->num_objects++;
-//
-//  obj->handle.code = 0;
-//  obj->handle.size = 0;
-//  obj->handle.value = 0;
-//
-//  obj->parent = dwg;
-//  obj->size = bit_read_MS(dat);
-//  object_address = dat->byte;
-//  ktl_lastaddress = dat->byte + obj->size; /* (calculate the bitsize) */
-//  obj->type = bit_read_BS(dat);
-//
-//  LOG_INFO(" Type: %d\n", obj->type)
 }

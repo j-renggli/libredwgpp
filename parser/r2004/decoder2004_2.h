@@ -4,7 +4,10 @@
 
 namespace libredwg2 {
 
+class Archive;
 class DWGBuffer;
+class Page;
+class SectionMap;
 
 class Decoder2004_2 : public Decoder
 {
@@ -33,7 +36,9 @@ class Decoder2004_2 : public Decoder
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual core::ResultCode decode(core::IReadBuffer& raw, core::IWriteBuffer& out);
+    virtual core::ResultCode decode(DWGBuffer& raw, core::IWriteBuffer& out);
+
+    core::ResultCode decode(Archive& archive, const SectionMap& map, const std::vector<Page>& vPages, DWGBuffer& buffer);
 
   private:
     uint32_t readLiteralLength(DWGBuffer& in, uint8_t& opcode);

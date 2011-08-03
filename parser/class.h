@@ -4,9 +4,7 @@
 
 namespace libredwg2 {
 
-class DWGBuffer;
-
-class Decoder
+class Class
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
@@ -17,24 +15,31 @@ class Decoder
   // Members
   ////////////////////////////////////////////////////////////////
   private:
+    size_t id_;
+    uint16_t flags_;
+    UnicodeString strAppName_;
+    UnicodeString strCppName_;
+    UnicodeString strDxfName_;
+    bool wasZombie_;
+    size_t itemClassID_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    virtual ~Decoder() {}
+    Class(size_t id, uint16_t flags, const UnicodeString& strAppName, const UnicodeString& strCppName,
+          const UnicodeString& strDxfName, bool wasZombie, size_t itemClassID);
 
-  ////////////////////////////////////////////////////////////////
-  // Operators
-  ////////////////////////////////////////////////////////////////
-  private:
+    virtual ~Class() {}
 
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    /// Decode the given raw input and APPEND the result to the output buffer.
-    virtual core::ResultCode decode(DWGBuffer& raw, core::IWriteBuffer& out) = 0;
+//    void addInfo(nObj, dwgVer, maintenance);
+
+  private:
+//    virtual core::ResultCode restore(DWGBuffer& buffer);
 };
 
 ////////////////////////////////////////////////////////////////

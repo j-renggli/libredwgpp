@@ -1,30 +1,38 @@
 #pragma once
 
 #include "../includes.h"
+#include "section.h"
+#include "version.h"
+
+#include "sections/classes.h"
 
 namespace libredwg2 {
 
 class Archive;
 class Decoder;
+class DWGBuffer;
 
 class Parser
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  public:
-    enum Release {
-      R13,
-      R14,
-      R2000,
-      R2004
-    };
+  protected:
+//    enum Sections
+//    {
+//      Classes
+//    };
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   protected:
     Archive& archive_;
+
+    Version version_;
+
+  private:
+    boost::scoped_ptr<ClassesParser> ptrClasses_;
 //
 //    int32_t previewOffset_;
 //    int16_t codepage_;
@@ -49,15 +57,18 @@ class Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual Release getVersionNumber() const = 0;
+    const Version& getVersion() const { return version_; }
 
     core::ResultCode parse();
 
   private:
     virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod) = 0;
 
-    virtual core::ResultCode parseFileHeader() = 0;
+    virtual core::ResultCode getSectionBuffer(Section::Type st, DWGBuffer& buffer) = 0;
+
     virtual core::ResultCode parsePreview();
+    virtual core::ResultCode parseClasses();
+    virtual core::ResultCode parseFileHeader() = 0;
     virtual core::ResultCode parseInfo() = 0;
     virtual core::ResultCode parseMap() = 0;
     virtual core::ResultCode parseObjects() = 0;

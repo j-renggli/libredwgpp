@@ -7,6 +7,8 @@
 
 namespace libredwg2 {
 
+class Version;
+
 class DWGBuffer
 {
   ////////////////////////////////////////////////////////////////
@@ -75,7 +77,8 @@ class DWGBuffer
     double readRawDouble();
 
     /// "Text" read
-    void readText(std::string& strText); // 2004 and earlier
+    UnicodeString readText(const Version& version);
+//    void readText(std::string& strText); // 2004 and earlier
 
     /// Set the position in terms of bytes (=> offset reset to 0)
     void setPosition(size_t pos);
@@ -85,6 +88,10 @@ class DWGBuffer
 
     /// Skip n bytes (offset unchanged)
     void skipBytes(size_t length);
+
+  private:
+    UnicodeString readASCII();
+    UnicodeString readUTF16();
 };
 
 ////////////////////////////////////////////////////////////////

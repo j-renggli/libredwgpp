@@ -1,5 +1,6 @@
 #include "parser2004.h"
 
+#include "../dwgbuffer.h"
 #include "decoder2004_2.h"
 #include "sectionclasses.h"
 #include "sectioninfo.h"
@@ -13,6 +14,7 @@ namespace libredwg2 {
 Parser2004::Parser2004(Archive& archive) :
 Parser(archive)
 {
+  version_.setRelease(Version::R2004);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -30,6 +32,47 @@ boost::shared_ptr<Decoder> Parser2004::getDecoder(int method)
 
 ////////////////////////////////////////////////////////////////
 
+core::ResultCode Parser2004::getSectionBuffer(Section::Type st, DWGBuffer& buffer)
+{
+  // If info, then map !
+  if (ptrInfo_ == NULL)
+  {
+    LOG_ERROR("No section info to be found");
+    return core::rcFailure;
+  }
+
+  const SectionInfo::Subsection* pClassSec = ptrInfo_->findSubsection(st);
+
+  if (pClassSec == NULL)
+  {
+    LOG_ERROR("Could not find classes' subsection ");
+    return rcSectionNotFound;
+  }
+
+  Decoder2004_2 decoder;
+  core::ResultCode rc = decoder.decode(archive_, *ptrMap_, pClassSec->getPages(), buffer);
+  buffer.setPosition(0);
+  return rc;
+
+//  switch (st)
+//  {
+//    case Section::Classes:
+//      break;
+//    default:
+//      break;
+//  }
+
+  //TODO
+  return core::rcFailure;
+
+//
+//  SectionClasses sc(archive_, pClassSec->getPages());
+//  core::ResultCode rc = sc.restoreMultiple(*ptrMap_);
+//  return rc;
+}
+
+////////////////////////////////////////////////////////////////
+
 core::ResultCode Parser2004::parseFileHeader()
 {
   // Go to just after revision number
@@ -38,6 +81,8 @@ core::ResultCode Parser2004::parseFileHeader()
   if (rc.isFailure())
     return rc;
 
+  buffer.setPosition(5);
+  version_.setMaintenance(buffer.read<uint8_t>());
 //  buffer.setPosition(7);
 //  int32_t previewOffset = buffer.read<int32_t>(false);
 //  buffer.setPosition(13);
@@ -164,7 +209,7 @@ core::ResultCode Parser2004::parseObjects()
 //    return core::rcFailure;
   }
 
-  const SectionInfo::Subsection* pObjSec = ptrInfo_->findSubsection(SectionInfo::Subsection::OBJECTS);
+  const SectionInfo::Subsection* pObjSec = ptrInfo_->findSubsection(Section::Objects);
   if (pObjSec == NULL)
   {
     LOG_ERROR("Could not find objects' subsection ");

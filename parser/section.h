@@ -10,11 +10,36 @@ class Section
   // Definitions
   ////////////////////////////////////////////////////////////////
   public:
+    enum Type
+    {
+      Classes,
+      Objects,
+
+      Unknown
+    };
+//        enum Type {
+//          HEADER,
+//          AUXHEADER,
+//          CLASSES,
+//          HANDLES,
+//          TEMPLATE,
+//          OBJFREESPACE,
+//          OBJECTS,
+//          REVHISTORY,
+//          SUMMARY,
+//          PREVIEW,
+//          APPINFO,
+//          APPINFOHISTORY,
+//          FILEDEPS,
+//    //      SECURITY,
+//
+//          UNKNOWN
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
+    static std::map<std::string, Type> s_mapTypes;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
@@ -31,6 +56,8 @@ class Section
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
+    static Type findType(const std::string& strName);
+
 //    virtual core::ResultCode decode(core::MemBuffer& in, core::MemBuffer& out) = 0;
 };
 

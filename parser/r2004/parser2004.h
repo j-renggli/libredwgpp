@@ -43,12 +43,15 @@ class Parser2004 : public Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    virtual Parser::Release getVersionNumber() const { return Parser::R2004; }
+//    virtual Parser::Release getVersionNumber() const { return Parser::R2004; }
 
   private:
     virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
+
+    virtual core::ResultCode getSectionBuffer(Section::Type st, DWGBuffer& buffer);
 //    virtual core::ResultCode parse();
 
+//    virtual core::ResultCode parseClasses();
     virtual core::ResultCode parseFileHeader();
     virtual core::ResultCode parseInfo();
     virtual core::ResultCode parseMap();

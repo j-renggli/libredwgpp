@@ -1,45 +1,37 @@
 #pragma once
 
-#include "../page.h"
-#include "../parser.h"
+#include "../class.h"
+#include "../version.h"
 
 namespace libredwg2 {
 
-//class SectionInfo;
-//class SectionMap;
+class DWGBuffer;
 
-class Parser2000 : public Parser
+class ClassesParser
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
   private:
-    enum Type {
-      HEADER = 0,
-      CLASS = 1,
-      OBJECT = 2,
-      SPECIAL = 3,
-      MEASUREMENT = 4,
-      OTHER = 5
-    };
+    typedef std::vector<Class> ClassVector;
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// Map to all sections
-    std::vector<Page> vPages_;
+    Version version_;
 
-    /// Info about each part of the archive
-//    boost::scoped_ptr<SectionInfo> ptrInfo_;
+    ClassVector vClasses_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2000(Archive& archive);
+    ClassesParser(const Version& version);
 
-    virtual ~Parser2000();
+//    SectionClasses(Archive& archive, const std::vector<Page>& multiple);
+
+    virtual ~ClassesParser() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -50,19 +42,9 @@ class Parser2000 : public Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-//    virtual Version getVersionNumber() const { return Parser::R2000; }
+    const std::vector<Class>& getClasses() const { return vClasses_; }
 
-  private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
-
-    virtual core::ResultCode getSectionBuffer(Section::Type st, DWGBuffer& buffer);
-
-//    virtual core::ResultCode parseClasses();
-    virtual core::ResultCode parseFileHeader();
-    virtual core::ResultCode parseInfo();
-    virtual core::ResultCode parseMap();
-    virtual core::ResultCode parseObjects();
-
+    core::ResultCode restore(DWGBuffer& buffer);
 };
 
 ////////////////////////////////////////////////////////////////

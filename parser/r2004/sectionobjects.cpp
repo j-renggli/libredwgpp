@@ -1,6 +1,7 @@
 #include "sectionobjects.h"
 
 #include "../dwgbuffer.h"
+#include "../version.h"
 
 namespace libredwg2 {
 
@@ -41,10 +42,14 @@ core::ResultCode SectionObjects::restoreData(DWGBuffer& data)
   {
     uint16_t number = data.readBit16();
     uint16_t proxyFlags = data.readBit16();
-    std::string strAppName, strCppName, strDxfName;
-    data.readText(strAppName);
-    data.readText(strCppName);
-    data.readText(strDxfName);
+    Version version(Version::R2004);
+    UnicodeString strAppName = data.readText(version);
+    UnicodeString strCppName = data.readText(version);
+    UnicodeString strDxfName = data.readText(version);
+//    std::string strAppName, strCppName, strDxfName;
+//    data.readText(strAppName);
+//    data.readText(strCppName);
+//    data.readText(strDxfName);
     bool isZombie = data.readBit();
     uint16_t cid = data.readBit16();
 

@@ -20,8 +20,10 @@ errorcodes.cpp
 
 file/archive.cpp
 
+parser/class.cpp
 parser/dwgbuffer.cpp
 parser/parser.cpp
+parser/section.cpp
 
 parser/r2000/parser2000.cpp
 
@@ -32,6 +34,8 @@ parser/r2004/sectionclasses.cpp
 parser/r2004/sectioninfo.cpp
 parser/r2004/sectionmap.cpp
 parser/r2004/sectionobjects.cpp
+
+parser/sections/classes.cpp
 )
 
 ######## LINKER ########

@@ -5,7 +5,6 @@
 namespace libredwg2 {
 
 const int32_t SectionInfo::s_guard = 0x4163003b;
-std::map<std::string, SectionInfo::Subsection::Type> SectionInfo::Subsection::s_mapTypes;
 
 ////////////////////////////////////////////////////////////////
 
@@ -16,7 +15,7 @@ Section2004(archive, single)
 
 ////////////////////////////////////////////////////////////////
 
-const SectionInfo::Subsection* SectionInfo::findSubsection(Subsection::Type type) const
+const SectionInfo::Subsection* SectionInfo::findSubsection(Section::Type type) const
 {
   SubsectionMap::const_iterator it = mSubsections_.find(type);
   if (it == mSubsections_.end())
@@ -74,8 +73,8 @@ core::ResultCode SectionInfo::restoreData(DWGBuffer& data)
 //      LOG_DEBUG(vPages[page].id_ << " " << vPages[page].size_ << " " << vPages[page].offset_);
     }
 
-    Subsection::Type type = Subsection::findType(pszName);
-    if (type != Subsection::UNKNOWN)
+    Section::Type type = Section::findType(pszName);
+    if (type != Section::Unknown)
     {
       mSubsections_.insert(std::make_pair(type, Subsection(sectionID, size, isCompressed == 2, isEncrypted == 1, pageSize, vPages)));
     }
@@ -96,36 +95,6 @@ isCompressed_(isCompressed),
 isEncrypted_(isEncrypted),
 vPages_(vPages)
 {
-}
-
-////////////////////////////////////////////////////////////////
-
-SectionInfo::Subsection::Type SectionInfo::Subsection::findType(const std::string& strName)
-{
-  if (s_mapTypes.empty())
-  {
-    s_mapTypes["AcDb:FileDepList"] = FILEDEPS;
-    s_mapTypes["AcDb:AppInfoHistory"] = APPINFOHISTORY;
-    s_mapTypes["AcDb:AppInfo"] = APPINFO;
-    s_mapTypes["AcDb:Preview"] = PREVIEW;
-    s_mapTypes["AcDb:SummaryInfo"] = SUMMARY;
-    s_mapTypes["AcDb:RevHistory"] = REVHISTORY;
-    s_mapTypes["AcDb:AcDbObjects"] = OBJECTS;
-    s_mapTypes["AcDb:ObjFreeSpace"] = OBJFREESPACE;
-    s_mapTypes["AcDb:Template"] = TEMPLATE;
-    s_mapTypes["AcDb:Handles"] = HANDLES;
-    s_mapTypes["AcDb:Classes"] = CLASSES;
-    s_mapTypes["AcDb:AuxHeader"] = AUXHEADER;
-    s_mapTypes["AcDb:Header"] = HEADER;
-//    s_mapTypes[""] = ;
-//    s_mapTypes[""] = ;
-  }
-
-  std::map<std::string, Type>::const_iterator it = s_mapTypes.find(strName);
-  if (it == s_mapTypes.end())
-    return UNKNOWN;
-  else
-    return it->second;
 }
 
 ////////////////////////////////////////////////////////////////

@@ -62,7 +62,8 @@ core::ResultCode Section2004::restore()
   clear.reserve(sizeUncomp);
 
   Decoder2004_2 decoder;
-  rc = decoder.decode(buffer, clear);
+  DWGBuffer in(buffer);
+  rc = decoder.decode(in, clear);
   if (rc.isFailure())
     return rc;
 
@@ -118,7 +119,8 @@ LOG_DEBUG(offset << " vs " << it->offset_);
 
     archive_.read(raw, offset + 0x20, encodedSize);
     Decoder2004_2 decoder;
-    core::ResultCode rc = decoder.decode(raw, clear);
+    DWGBuffer in(raw);
+    core::ResultCode rc = decoder.decode(in, clear);
 //    if (rc.isFailure())
 ////      return rc;
 //break;

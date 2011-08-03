@@ -4,6 +4,7 @@
 #include "dwgbuffer.h"
 #include "r2000/parser2000.h"
 #include "r2004/parser2004.h"
+#include "sections/classes.h"
 
 #include <file/archive.h>
 
@@ -58,23 +59,47 @@ core::ResultCode Parser::create(Archive& archive, boost::shared_ptr<Parser>& ptr
 
 core::ResultCode Parser::parse()
 {
+  LOG_DEBUG("FileHeader");
   core::ResultCode rc = parseFileHeader();
   if (rc.isFailure())
     return rc;
 
+  LOG_DEBUG("Map");
   rc = parseMap();
   if (rc.isFailure())
     return rc;
 
+  LOG_DEBUG("Info");
   rc = parseInfo();
   if (rc.isFailure())
     return rc;
 
+  LOG_DEBUG("Classes");
+  rc = parseClasses();
+  if (rc.isFailure())
+    return rc;
+
+  LOG_DEBUG(ptrClasses_->getClasses().size() << " classes");
+
+  LOG_DEBUG("Objects");
   rc = parseObjects();
   if (rc.isFailure())
     return rc;
 
   return core::rcSuccess;
+}
+
+////////////////////////////////////////////////////////////////
+
+core::ResultCode Parser::parseClasses()
+{
+  DWGBuffer buffer;
+  core::ResultCode rc = getSectionBuffer(Section::Classes, buffer);
+  if (rc.isFailure())
+    return rc;
+
+  ptrClasses_.reset(new ClassesParser(version_));
+  return ptrClasses_->restore(buffer);
 }
 
 ////////////////////////////////////////////////////////////////

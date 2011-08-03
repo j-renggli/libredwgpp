@@ -13,25 +13,25 @@ class SectionInfo : public Section2004
   public:
     class Subsection
     {
-      public:
-        enum Type {
-          HEADER,
-          AUXHEADER,
-          CLASSES,
-          HANDLES,
-          TEMPLATE,
-          OBJFREESPACE,
-          OBJECTS,
-          REVHISTORY,
-          SUMMARY,
-          PREVIEW,
-          APPINFO,
-          APPINFOHISTORY,
-          FILEDEPS,
-    //      SECURITY,
-
-          UNKNOWN
-        };
+//      public:
+//        enum Type {
+//          HEADER,
+//          AUXHEADER,
+//          CLASSES,
+//          HANDLES,
+//          TEMPLATE,
+//          OBJFREESPACE,
+//          OBJECTS,
+//          REVHISTORY,
+//          SUMMARY,
+//          PREVIEW,
+//          APPINFO,
+//          APPINFOHISTORY,
+//          FILEDEPS,
+//    //      SECURITY,
+//
+//          UNKNOWN
+//        };
 
       private:
         /// An id for the subsection
@@ -51,9 +51,6 @@ class SectionInfo : public Section2004
       public:
         Subsection(int32_t id, int64_t size, bool isCompressed, bool isEncrypted, int32_t pageSize, const std::vector<Page>& vPages);
 
-      private:
-        static std::map<std::string, Type> s_mapTypes;
-
       public:
         int32_t getID() const { return id_; }
 
@@ -64,11 +61,9 @@ class SectionInfo : public Section2004
         bool isCompressed() const { return isCompressed_; }
 
         bool isEncrypted() const { return isEncrypted_; }
-
-        static Type findType(const std::string& strName);
     };
 
-    typedef std::map<Subsection::Type, Subsection> SubsectionMap;
+    typedef std::map<Section::Type, Subsection> SubsectionMap;
 
   ////////////////////////////////////////////////////////////////
   // Members
@@ -95,7 +90,7 @@ class SectionInfo : public Section2004
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    const Subsection* findSubsection(Subsection::Type type) const;
+    const Subsection* findSubsection(Section::Type type) const;
 
   private:
     virtual int32_t getGuard() const { return s_guard; }

@@ -1,5 +1,7 @@
 #include "dwgbuffer.h"
 
+#include "version.h"
+
 namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
@@ -18,6 +20,30 @@ offset_(0),
 last_(0)
 {
   buffer_.setPosition(0);
+}
+
+////////////////////////////////////////////////////////////////
+
+UnicodeString DWGBuffer::readASCII()
+{
+  size_t size = readBit16();
+  UnicodeString strText(size, '\0', size);
+
+  for (size_t i = 0; i < size; ++i)
+  {
+    char c = readRaw8();
+    if (c == 0) {
+//      strText.resize(i);
+      return strText;
+//    } else if (!isprint(c)) {
+//      strText.setCharAt(i, '~'); // ?
+    } else {
+      strText.setCharAt(i, c);
+    }
+  }
+
+  strText.append('\0');
+  return strText;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -159,6 +185,8 @@ Colour DWGBuffer::readColourAdvanced()
 //  else if (c & 0x02)
 //    col.strBookName_ = readText();
 //  return col;
+
+// TODO
 }
 
 ////////////////////////////////////////////////////////////////
@@ -289,25 +317,36 @@ LOG_DEBUG(offset_);
 
 ////////////////////////////////////////////////////////////////
 
-void DWGBuffer::readText(std::string& strText)
+UnicodeString DWGBuffer::readText(const Version& version)
 {
-  uint16_t size = readBit16();
-  strText.resize(size);
+  if (version.isAtLeast(Version::R2007))
+    return readUTF16();
+  else
+    return readASCII();
+}
 
-  for (uint16_t i = 0; i < size; ++i)
+////////////////////////////////////////////////////////////////
+
+UnicodeString DWGBuffer::readUTF16()
+{
+  size_t size = readBit16();
+  UnicodeString strText(size, '\0', size);
+
+  for (size_t i = 0; i < size; ++i)
   {
-    char c = readRaw8();
+    uint16_t c = readRaw16();
     if (c == 0) {
-      strText.resize(i);
-      return;
-    } else if (!isprint(c)) {
-      strText[i] = '~';
+//      strText.resize(i);
+      return strText;
+//    } else if (!isprint(c)) {
+//      strText.setCharAt(i, '~'); // ?
     } else {
-      strText[i] = c;
+      strText.setCharAt(i, c);
     }
   }
 
   strText.append('\0');
+  return strText;
 }
 
 ////////////////////////////////////////////////////////////////
