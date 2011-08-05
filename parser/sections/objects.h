@@ -1,42 +1,38 @@
 #pragma once
 
-#include "../page.h"
-#include "../parser.h"
+#include "../class.h"
+#include "../version.h"
 
 namespace libredwg2 {
 
-//class SectionInfo;
-//class SectionMap;
+class ClassesParser;
+class DWGBuffer;
+class Object;
+class Schema;
 
-class Parser2000 : public Parser
+class ObjectsParser
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
   private:
-    enum Type {
-      HEADER = 0,
-      CLASS = 1,
-      OBJECT = 2,
-      SPECIAL = 3,
-      MEASUREMENT = 4,
-      OTHER = 5
-    };
+    typedef std::map<size_t, boost::shared_ptr<Object> > ObjectsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// Map to all sections
-    std::vector<Page> vPages_;
+    Version version_;
+
+    ObjectsMap mObjects_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2000(Archive& archive);
+    ObjectsParser(const Version& version);
 
-    virtual ~Parser2000();
+    virtual ~ObjectsParser() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -46,17 +42,8 @@ class Parser2000 : public Parser
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
-  private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
-
-    virtual core::ResultCode getSectionBuffer(Section::Type st, DWGBuffer& buffer);
-
-    virtual core::ResultCode parseFileHeader();
-    virtual core::ResultCode parseInfo();
-    virtual core::ResultCode parseMap();
-
-    virtual core::ResultCode parseObjects(ObjectsParser& parser);
-
+  public:
+    core::ResultCode restoreObject(Schema& schema, DWGBuffer& buffer, const ClassesParser& classes);
 };
 
 ////////////////////////////////////////////////////////////////

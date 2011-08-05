@@ -2,7 +2,6 @@
 
 #include "../dwgbuffer.h"
 #include "decoder2004_2.h"
-#include "sectionclasses.h"
 #include "sectioninfo.h"
 #include "sectionmap.h"
 #include "sectionobjects.h"
@@ -174,30 +173,7 @@ core::ResultCode Parser2004::parseMap()
 
 ////////////////////////////////////////////////////////////////
 
-//core::ResultCode Parser2004::parseClasses()
-//{
-//  // If info, then map !
-//  if (ptrInfo_ == NULL)
-//  {
-//    LOG_ERROR("No section info to be found");
-//    return core::rcFailure;
-//  }
-//
-//  const SectionInfo::Subsection* pClassSec = ptrInfo_->findSubsection(SectionInfo::Subsection::CLASSES);
-//  if (pClassSec == NULL)
-//  {
-//    LOG_ERROR("Could not find classes' subsection ");
-//    return core::rcFailure;
-//  }
-//
-//  SectionClasses sc(archive_, pClassSec->getPages());
-//  core::ResultCode rc = sc.restoreMultiple(*ptrMap_);
-//  return rc;
-//}
-
-////////////////////////////////////////////////////////////////
-
-core::ResultCode Parser2004::parseObjects()
+core::ResultCode Parser2004::parseObjects(ObjectsParser& parser)
 {
   // If info, then map !
   if (ptrInfo_ == NULL)

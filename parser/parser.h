@@ -5,6 +5,7 @@
 #include "version.h"
 
 #include "sections/classes.h"
+#include "sections/objects.h"
 
 namespace libredwg2 {
 
@@ -31,14 +32,12 @@ class Parser
 
     Version version_;
 
-  private:
+    boost::shared_ptr<Schema> ptrSchema_;
+
     boost::scoped_ptr<ClassesParser> ptrClasses_;
-//
-//    int32_t previewOffset_;
-//    int16_t codepage_;
-//    int32_t securityFlags_;
-//    int32_t summaryOffset_;
-//    int32_t sectionMapOffset_;
+
+  private:
+    boost::scoped_ptr<ObjectsParser> ptrObjects_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
@@ -57,6 +56,8 @@ class Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
+    const boost::shared_ptr<Schema>& getSchema() const { return ptrSchema_; }
+
     const Version& getVersion() const { return version_; }
 
     core::ResultCode parse();
@@ -68,10 +69,12 @@ class Parser
 
     virtual core::ResultCode parsePreview();
     virtual core::ResultCode parseClasses();
+
+    virtual core::ResultCode parseObjects(ObjectsParser& parser) = 0;
+
     virtual core::ResultCode parseFileHeader() = 0;
     virtual core::ResultCode parseInfo() = 0;
     virtual core::ResultCode parseMap() = 0;
-    virtual core::ResultCode parseObjects() = 0;
 
   private:
 //    core::ResultCode uncompress(core::IReadBuffer& compressed, core::MemBuffer& clear, int type);

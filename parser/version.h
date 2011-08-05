@@ -33,51 +33,25 @@ class Version
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Version() :
-    release_(Unknown),
-    version_(0)
-    {
-    }
+    Version();
 
-    Version(Release release, size_t maintenance = 0) :
-    release_(release),
-    version_(maintenance)
-    {
-    }
+    Version(Release release, size_t maintenance = 0);
 
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    bool isAtLeast(Release release, size_t maintenance = 0) const
-    {
-      if (release_ > release)
-        return true;
-      else if (release_ < release)
-        return false;
-      else
-        return version_ >= maintenance;
-    }
+    bool equals(Release release) const;
 
-    bool isGreaterThan(Release release, size_t maintenance = 0) const
-    {
-      if (release_ > release)
-        return true;
-      else if (release_ < release)
-        return false;
-      else
-        return version_ > maintenance;
-    }
+    bool isAtLeast(Release release, size_t maintenance = 0) const;
 
-    void setMaintenance(size_t maintenance)
-    {
-      version_ = maintenance;
-    }
+    bool isBetween(Release min, Release max) const;
 
-    void setRelease(Release release)
-    {
-      release_ = release;
-    }
+    bool isGreaterThan(Release release, size_t maintenance = 0) const;
+
+    void setMaintenance(size_t maintenance);
+
+    void setRelease(Release release);
 };
 
 ////////////////////////////////////////////////////////////////

@@ -36,7 +36,9 @@ class Class
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-//    void addInfo(nObj, dwgVer, maintenance);
+    const UnicodeString& getAppName() const { return strAppName_; }
+    const UnicodeString& getCppName() const { return strCppName_; }
+    const UnicodeString& getDxfName() const { return strDxfName_; }
 
   private:
 //    virtual core::ResultCode restore(DWGBuffer& buffer);

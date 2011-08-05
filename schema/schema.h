@@ -1,42 +1,29 @@
 #pragma once
 
-#include "../page.h"
-#include "../parser.h"
+#include "../includes.h"
+
+#include "face3d.h"
 
 namespace libredwg2 {
 
-//class SectionInfo;
-//class SectionMap;
-
-class Parser2000 : public Parser
+class Schema
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  private:
-    enum Type {
-      HEADER = 0,
-      CLASS = 1,
-      OBJECT = 2,
-      SPECIAL = 3,
-      MEASUREMENT = 4,
-      OTHER = 5
-    };
+  public:
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// Map to all sections
-    std::vector<Page> vPages_;
+    std::vector<Face3d> vFaces_;
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2000(Archive& archive);
-
-    virtual ~Parser2000();
+    virtual ~Schema() {}
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -46,17 +33,10 @@ class Parser2000 : public Parser
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
-  private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
+  public:
+    void addFace3d(const Face3d& face) { vFaces_.push_back(face); }
 
-    virtual core::ResultCode getSectionBuffer(Section::Type st, DWGBuffer& buffer);
-
-    virtual core::ResultCode parseFileHeader();
-    virtual core::ResultCode parseInfo();
-    virtual core::ResultCode parseMap();
-
-    virtual core::ResultCode parseObjects(ObjectsParser& parser);
-
+    const std::vector<Face3d>& getFaces3d() const { return vFaces_; }
 };
 
 ////////////////////////////////////////////////////////////////

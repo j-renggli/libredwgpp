@@ -66,6 +66,8 @@ core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost
   if (rc.isFailure())
     return rc;
 
+  ptrSchema = ptrParser->getSchema();
+
   return core::rcSuccess;
 }
 

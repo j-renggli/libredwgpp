@@ -24,6 +24,18 @@ last_(0)
 
 ////////////////////////////////////////////////////////////////
 
+size_t DWGBuffer::getPosition() const {
+  return buffer_.getPosition();
+}
+
+////////////////////////////////////////////////////////////////
+
+bool DWGBuffer::hasMore() const {
+  return buffer_.getPosition() < buffer_.getSize();
+}
+
+////////////////////////////////////////////////////////////////
+
 UnicodeString DWGBuffer::readASCII()
 {
   size_t size = readBit16();
@@ -44,18 +56,6 @@ UnicodeString DWGBuffer::readASCII()
 
   strText.append('\0');
   return strText;
-}
-
-////////////////////////////////////////////////////////////////
-
-size_t DWGBuffer::getPosition() const {
-  return buffer_.getPosition();
-}
-
-////////////////////////////////////////////////////////////////
-
-bool DWGBuffer::hasMore() const {
-  return buffer_.getPosition() < buffer_.getSize();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -93,6 +93,25 @@ uint8_t DWGBuffer::readBit2()
     buffer_.readValue(last_, false);
     result |= (last_ & 0x80) >> 7;
     offset_ = 1;
+  }
+
+  return result;
+}
+
+////////////////////////////////////////////////////////////////
+
+uint8_t DWGBuffer::readBit3()
+{
+  core::Buffer result = 0;
+
+  for (int i = 0; i < 3; ++i)
+  {
+    result <<= 1;
+    bool isOne = readBit();
+    if (isOne)
+      ++result;
+    else
+      break;
   }
 
   return result;
@@ -144,6 +163,24 @@ uint32_t DWGBuffer::readBit32()
 
 ////////////////////////////////////////////////////////////////
 
+uint64_t DWGBuffer::readBit64()
+{
+  const uint8_t b3 = readBit3();
+
+  uint64_t result = 0;
+  int shift = 0;
+  for (int i = 0; i < b3; ++i)
+  {
+    uint64_t a = readRaw8();
+    result |= (a << shift);
+    shift += 8;
+  }
+
+  return result;
+}
+
+////////////////////////////////////////////////////////////////
+
 double DWGBuffer::readBitDouble()
 {
   const uint8_t b2 = readBit2();
@@ -165,28 +202,68 @@ double DWGBuffer::readBitDouble()
 
 ////////////////////////////////////////////////////////////////
 
-Colour DWGBuffer::readColour()
+void DWGBuffer::readBitDouble(double& valueWithDefault)
 {
-  Colour col;
-  col.index_ = readBit16();
-  return col;
+  const uint8_t b2 = readBit2();
+  switch (b2)
+  {
+    case 0:
+      return;
+    case 1:
+    LOG_DEBUG("Double 4");
+    exit(0);
+      return;
+    case 2:
+    LOG_DEBUG("Double 6");
+    exit(0);
+      return;
+    default:
+    {
+      valueWithDefault = readRawDouble();
+      return;
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////
 
-Colour DWGBuffer::readColourAdvanced()
+void DWGBuffer::readBitExtrusion(const Version& version, double& x, double& y, double& z)
 {
-//  Colour col;
-//  col.index_ = readBit16();
-//  col.rgb_ = readBit32();
-//  uint8_t c = readRaw8();
-//  if (c & 0x01)
-//    col.strName_ = readText();
-//  else if (c & 0x02)
-//    col.strBookName_ = readText();
-//  return col;
+  if (version.isAtLeast(Version::R2000))
+  {
+    if (readBit())
+    {
+      x = 0.;
+      y = 0.;
+      z = 1.;
+      return;
+    }
+  }
 
-// TODO
+  x = readBitDouble();
+  y = readBitDouble();
+  z = readBitDouble();
+}
+
+////////////////////////////////////////////////////////////////
+
+Colour DWGBuffer::readColour(const Version& version)
+{
+  Colour col;
+
+  if (version.isAtLeast(Version::R2004))
+  {
+    col.index_ = readBit16();
+    col.rgb_ = readBit32();
+    uint8_t c = readRaw8();
+    if (c & 0x01)
+      col.strName_ = readText(version);
+    else if (c & 0x02)
+      col.strBookName_ = readText(version);
+  } else {
+    col.index_ = readBit16();
+  }
+  return col;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -204,7 +281,7 @@ Handle DWGBuffer::readHandle()
 
   handle.value_ = 0;
   uint8_t* pValue = (uint8_t*)(&handle.value_);
-  for (int i = size -1; i >= 0; --i)
+  for (int i = size - 1; i >= 0; --i)
     pValue[i] = readRaw8();
 
   return handle;
@@ -308,7 +385,7 @@ double DWGBuffer::readRawDouble()
 {
   double value;
   uint8_t* pValue = (uint8_t*)&value;
-LOG_DEBUG(offset_);
+
   for (int i = 0; i < 8; ++i)
     pValue[i] = readRaw8();
 

@@ -1,42 +1,54 @@
 #pragma once
 
-#include "../page.h"
-#include "../parser.h"
+#include "../includes.h"
 
 namespace libredwg2 {
 
-//class SectionInfo;
-//class SectionMap;
+class Vertex3d
+{
+  private:
+    double position_[3];
 
-class Parser2000 : public Parser
+  public:
+    Vertex3d()
+    {
+      position_[0] = 0.;
+      position_[1] = 0.;
+      position_[2] = 0.;
+    }
+
+    Vertex3d(double x, double y, double z)
+    {
+      position_[0] = x;
+      position_[1] = y;
+      position_[2] = z;
+    }
+};
+
+class Face3d
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
   ////////////////////////////////////////////////////////////////
-  private:
-    enum Type {
-      HEADER = 0,
-      CLASS = 1,
-      OBJECT = 2,
-      SPECIAL = 3,
-      MEASUREMENT = 4,
-      OTHER = 5
-    };
+  public:
 
   ////////////////////////////////////////////////////////////////
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    /// Map to all sections
-    std::vector<Page> vPages_;
+    Vertex3d apex_[4];
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Parser2000(Archive& archive);
-
-    virtual ~Parser2000();
+    Face3d(const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4)
+    {
+      apex_[0] = c1;
+      apex_[1] = c2;
+      apex_[2] = c3;
+      apex_[3] = c4;
+    }
 
   ////////////////////////////////////////////////////////////////
   // Operators
@@ -46,16 +58,7 @@ class Parser2000 : public Parser
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
-  private:
-    virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod);
-
-    virtual core::ResultCode getSectionBuffer(Section::Type st, DWGBuffer& buffer);
-
-    virtual core::ResultCode parseFileHeader();
-    virtual core::ResultCode parseInfo();
-    virtual core::ResultCode parseMap();
-
-    virtual core::ResultCode parseObjects(ObjectsParser& parser);
+  public:
 
 };
 

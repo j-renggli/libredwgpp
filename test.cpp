@@ -4,6 +4,7 @@
 
 #include "file/archive.h"
 
+#include "schema/schema.h"
 
 
 
@@ -49,8 +50,20 @@ int main(int argc, char* argv[])
     (new core::COutDisplay(core::LogManager::eDebug)));
 
   libredwg2::Archive parser;
+  const std::string strFile = "files/patrick.dwg";
   boost::shared_ptr<libredwg2::Schema> ptrSchema;
 //  LOG_DEBUG(parser.restore("www/Villa.dwg", ptrSchema));
-  LOG_DEBUG(parser.restore("libredwg/examples/example.dwg", ptrSchema));
+//  LOG_DEBUG(parser.restore("files/Villa2000.dwg", ptrSchema));
+  core::ResultCode rc = parser.restore(strFile, ptrSchema);
+  LOG_DEBUG(rc);
+  if (rc.isFailure())
+    return rc.getValue();
+//  LOG_DEBUG(parser.restore("libredwg/examples/example.dwg", ptrSchema));
+
+  if (ptrSchema == NULL)
+    return -1;
+
+  LOG_DEBUG(ptrSchema->getFaces3d().size());
+
   return 0;
 }

@@ -20,22 +20,34 @@ errorcodes.cpp
 
 file/archive.cpp
 
+parser/objects/blockcontrol.cpp
+parser/objects/dictionary.cpp
+parser/objects/entity.cpp
+parser/objects/face3d.cpp
+parser/objects/layer.cpp
+parser/objects/line.cpp
+parser/objects/object.cpp
+parser/objects/shapefile.cpp
+parser/objects/undocumentedcontrol.cpp
+parser/objects/vertex3d.cpp
+
 parser/class.cpp
 parser/dwgbuffer.cpp
 parser/parser.cpp
 parser/section.cpp
+parser/version.cpp
 
 parser/r2000/parser2000.cpp
 
 parser/r2004/decoder2004_2.cpp
 parser/r2004/parser2004.cpp
 parser/r2004/section2004.cpp
-parser/r2004/sectionclasses.cpp
 parser/r2004/sectioninfo.cpp
 parser/r2004/sectionmap.cpp
 parser/r2004/sectionobjects.cpp
 
 parser/sections/classes.cpp
+parser/sections/objects.cpp
 )
 
 ######## LINKER ########

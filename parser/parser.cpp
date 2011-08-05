@@ -7,6 +7,7 @@
 #include "sections/classes.h"
 
 #include <file/archive.h>
+#include <schema/schema.h>
 
 namespace libredwg2 {
 
@@ -59,6 +60,8 @@ core::ResultCode Parser::create(Archive& archive, boost::shared_ptr<Parser>& ptr
 
 core::ResultCode Parser::parse()
 {
+  ptrSchema_.reset(new Schema);
+
   LOG_DEBUG("FileHeader");
   core::ResultCode rc = parseFileHeader();
   if (rc.isFailure())
@@ -82,7 +85,8 @@ core::ResultCode Parser::parse()
   LOG_DEBUG(ptrClasses_->getClasses().size() << " classes");
 
   LOG_DEBUG("Objects");
-  rc = parseObjects();
+  ptrObjects_.reset(new ObjectsParser(version_));
+  rc = parseObjects(*ptrObjects_);
   if (rc.isFailure())
     return rc;
 
@@ -101,6 +105,20 @@ core::ResultCode Parser::parseClasses()
   ptrClasses_.reset(new ClassesParser(version_));
   return ptrClasses_->restore(buffer);
 }
+
+////////////////////////////////////////////////////////////////
+
+//core::ResultCode Parser::parseObjects()
+//{
+//  ptrObjects_.reset(new ObjectsParser(version_));
+//
+//  DWGBuffer buffer;
+//  core::ResultCode rc = getSectionBuffer(Section::Objects, buffer);
+//  if (rc.isFailure())
+//    return rc;
+//
+//  return ptrObjects_->restore(buffer);
+//}
 
 ////////////////////////////////////////////////////////////////
 
@@ -163,8 +181,6 @@ core::ResultCode Parser::parsePreview()
 //
   return core::rcSuccess;
 }
-
-////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////
 

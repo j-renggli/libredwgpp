@@ -49,19 +49,24 @@ class DWGBuffer
   public:
     core::IReadWriteBuffer& getBuffer() { return buffer_; }
 
+    size_t getOffset() const { return offset_; }
     size_t getPosition() const;
     bool hasMore() const;
 
     /// "Bit" read
     bool readBit();
     uint8_t readBit2();
+    uint8_t readBit3();
     uint16_t readBit16();
     uint32_t readBit32();
+    uint64_t readBit64();
     double readBitDouble();
+    void readBitDouble(double& valueWithDefault);
+    void readBitExtrusion(const Version& version, double& x, double& y, double& z);
 
     /// "Colour" read
-    Colour readColour();
-    Colour readColourAdvanced();
+    Colour readColour(const Version& version);
+//    Colour readColourAdvanced();
 
     /// Handle references
     Handle readHandle();

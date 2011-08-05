@@ -9,8 +9,8 @@ class Colour
   public:
     uint32_t index_;
     uint32_t rgb_;
-    std::string strName_;
-    std::string strBookName_;
+    UnicodeString strName_;
+    UnicodeString strBookName_;
 };
 
 ////////////////////////////////////////////////////////////////
