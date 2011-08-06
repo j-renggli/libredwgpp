@@ -2,11 +2,9 @@
 
 #include "../includes.h"
 
-#include "vertex3d.h"
-
 namespace libredwg2 {
 
-class Face3d
+class Vertex3d
 {
   ////////////////////////////////////////////////////////////////
   // Definitions
@@ -17,30 +15,48 @@ class Face3d
   // Members
   ////////////////////////////////////////////////////////////////
   private:
-    Vertex3d apex_[4];
+    double position_[3];
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Face3d(const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4)
+    Vertex3d()
     {
-      apex_[0] = c1;
-      apex_[1] = c2;
-      apex_[2] = c3;
-      apex_[3] = c4;
+      position_[0] = 0.;
+      position_[1] = 0.;
+      position_[2] = 0.;
+    }
+
+    Vertex3d(double x, double y, double z)
+    {
+      position_[0] = x;
+      position_[1] = y;
+      position_[2] = z;
     }
 
   ////////////////////////////////////////////////////////////////
   // Operators
   ////////////////////////////////////////////////////////////////
-  private:
+  public:
+    bool operator<(const Vertex3d& vertex) const
+    {
+      for (int i = 0; i < 3; ++i)
+      {
+        if (position_[i] < vertex.position_[i])
+          return true;
+        else if (position_[i] > vertex.position_[i])
+          return false;
+      }
+
+      return false;
+    }
 
   ////////////////////////////////////////////////////////////////
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    const Vertex3d& getCorner(size_t i) const { return apex_[i]; }
+    double get(size_t index) const { return position_[index]; }
 
 };
 
