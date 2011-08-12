@@ -4,9 +4,11 @@
 
 namespace libredwg2 {
 
+class Colour;
+
 namespace parserobject {
 
-class Entity : public Object
+class Entity : public libredwg2::Object
 {
   public:
     ~Entity() {}
@@ -15,7 +17,7 @@ class Entity : public Object
     virtual core::ResultCode restore(Schema& schema, DWGBuffer& buffer, const Version& version) const;
 
   private:
-    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const = 0;
+    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const = 0;
 };
 
 ////////////////////////////////////////////////////////////////

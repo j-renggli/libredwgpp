@@ -31,7 +31,7 @@ core::ResultCode Entity::restore(Schema& schema, DWGBuffer& buffer, const Versio
 
   if (version.isBetween(Version::R13, Version::R14))
   {
-    size_t bitSize = buffer.readRaw32();
+    /*size_t bitSize =*/ buffer.readRaw32();
 //    size_t flags = buffer.readBit6();
 //    size_t params = buffer.readBit6();
 
@@ -54,41 +54,45 @@ core::ResultCode Entity::restore(Schema& schema, DWGBuffer& buffer, const Versio
 
   bool hasLinks = ~buffer.readBit();
 
-  Colour colour;
-  if (version.isAtLeast(Version::R2004))
-  {
-    if (hasLinks)
-    {
-      bool colourMode = buffer.readBit();
-      if (colourMode)
-      {
-        colour.index_ = buffer.readRaw8();
-      } else {
-        size_t flags = buffer.readRaw16();
-        if (flags & 0x8000)
-        {
-          int r = buffer.readRaw8();
-          int g = buffer.readRaw8();
-          int b = buffer.readRaw8();
-          int a = buffer.readRaw8();
-          UnicodeString strName = buffer.readText(version);
-        }
-
-        if (flags & 0x4000)
-        {
-        }
-
-        if (flags & 0x2000)
-        {
-          int transparency = buffer.readBit32();
-        }
-      }
-    } else {
-      buffer.readBit();
-    }
-  } else {
-    colour = buffer.readColour(version);
-  }
+  Colour colour = buffer.readColour(version, true);
+//  if (version.isAtLeast(Version::R2004))
+//  {
+//    if (hasLinks)
+//    {
+//      bool colourMode = buffer.readBit();
+//      if (colourMode)
+//      {
+//        colour.setIndex(buffer.readRaw8());
+//      } else {
+//        size_t flags = buffer.readRaw16();
+//        if (flags & 0x8000)
+//        {
+//          // TODO: doc says BS of 24 bits for RGB  !?
+//          int r = buffer.readRaw8();
+//          int g = buffer.readRaw8();
+//          int b = buffer.readRaw8();
+//          int a = buffer.readRaw8();
+//          UnicodeString strName = buffer.readText(version);
+//
+//          colour.setRGBA(r, g, b, a);
+//          colour.setName(strName);
+//        }
+//
+//        if (flags & 0x4000)
+//        {
+//        }
+//
+//        if (flags & 0x2000)
+//        {
+//          int transparency = buffer.readBit32();
+//        }
+//      }
+//    } else {
+//      buffer.readBit();
+//    }
+//  } else {
+//    colour = buffer.readColour(version);
+//  }
 //  ent->linetype_scale = bit_read_BD(dat);
 
 //  Colour colour = data.readColour();
@@ -120,7 +124,7 @@ core::ResultCode Entity::restore(Schema& schema, DWGBuffer& buffer, const Versio
 //  return core::rcSuccess;
 //LOG_DEBUG(buffer.getPosition() << ", " << buffer.getOffset());
 
-  return restoreFull(schema, buffer, version);
+  return restoreFull(schema, buffer, colour, version);
 }
 
 ////////////////////////////////////////////////////////////////

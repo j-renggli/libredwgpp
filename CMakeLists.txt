@@ -48,6 +48,9 @@ parser/r2004/sectionobjects.cpp
 
 parser/sections/classes.cpp
 parser/sections/objects.cpp
+
+schema/colour.cpp
+schema/face3d.cpp
 )
 
 ######## LINKER ########

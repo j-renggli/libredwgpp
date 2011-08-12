@@ -12,7 +12,7 @@ namespace parserobject {
 ////////////////////////////////////////////////////////////////
 int i = 0;
 // P. 124
-core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const
 {
   if (version.isAtLeast(Version::R2000))
   {
@@ -42,7 +42,7 @@ core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Ve
       buffer.readBit16();
     }
 
-    schema.addFace3d(libredwg2::Face3d(corners[0], corners[1], corners[2], corners[3]));
+    schema.addFace3d(libredwg2::Face3d(colour, corners[0], corners[1], corners[2], corners[3]));
   } else {
     for (int i = 1; i < 5; ++i)
     {
@@ -51,6 +51,7 @@ core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Ve
       double z = buffer.readBitDouble();
   //    double x, y, z;
   //    buffer.readBitExtrusion(version, x, y, z);
+
       LOG_DEBUG("corner " << i << " : [" << x << ", " << y << ", " << z << "]");
       return core::rcFailure;
     }

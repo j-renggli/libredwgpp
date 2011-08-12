@@ -9,7 +9,7 @@ namespace parserobject {
 // P. 149
 core::ResultCode BlockControl::restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const
 {
-  size_t numEntries = buffer.readModularShort();
+  /*size_t numEntries =*/ buffer.readModularShort();
 //  LOG_DEBUG("Num entries " << numEntries);
 
   Handle handle = buffer.readHandle();

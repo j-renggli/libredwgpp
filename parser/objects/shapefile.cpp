@@ -13,9 +13,9 @@ core::ResultCode ShapeFile::restoreFull(Schema& schema, DWGBuffer& buffer, const
 {
   UnicodeString strShapeFileName = buffer.readText(version);
 //  LOG_DEBUG(strShapeFileName);
-  bool flag64 = buffer.readBit();
+  /*bool flag64 = */buffer.readBit();
 //  LOG_DEBUG(flag64);
-  int xrefindex = buffer.readBit16() - 1;
+  /*int xrefindex = */buffer.readBit16();// - 1;
 //  LOG_DEBUG(xrefindex);
 //  if (xrefindex >= 0)
 //  {

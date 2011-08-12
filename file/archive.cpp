@@ -2,6 +2,8 @@
 
 #include <parser/parser.h>
 
+#include <schema/colour.h>
+
 namespace libredwg2 {
 
 ////////////////////////////////////////////////////////////////
@@ -52,6 +54,8 @@ core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost
     LOG_ERROR("File could not be loaded: " << pathFile);
     return rcInputError;
   }
+
+  Colour::initialiseIndexMap();
 
   size_ = boost::filesystem::file_size(pathFile);
 

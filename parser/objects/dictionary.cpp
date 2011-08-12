@@ -18,8 +18,8 @@ core::ResultCode Dictionary::restoreFull(Schema& schema, DWGBuffer& buffer, cons
   {
     buffer.readRaw8();
   } else if (version.isAtLeast(Version::R2000)) {
-    size_t cloningFlag = buffer.readBit16();
-    size_t ownerFlag = buffer.readRaw8();
+    /*size_t cloningFlag = */buffer.readBit16();
+    /*size_t ownerFlag = */buffer.readRaw8();
 //    LOG_DEBUG("Cloning " << cloningFlag << " owner " << ownerFlag);
   }
 

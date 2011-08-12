@@ -247,22 +247,61 @@ void DWGBuffer::readBitExtrusion(const Version& version, double& x, double& y, d
 
 ////////////////////////////////////////////////////////////////
 
-Colour DWGBuffer::readColour(const Version& version)
+Colour DWGBuffer::readColour(const Version& version, bool isEntity)
 {
   Colour col;
 
   if (version.isAtLeast(Version::R2004))
   {
-    col.index_ = readBit16();
-    col.rgb_ = readBit32();
-    uint8_t c = readRaw8();
-    if (c & 0x01)
-      col.strName_ = readText(version);
-    else if (c & 0x02)
-      col.strBookName_ = readText(version);
+    if (isEntity)
+    {
+      size_t colNum = readBit16();
+      bool hasFlag = false;
+      if (colNum & 0x8000)
+      {
+        hasFlag = true;
+        // RGB value or 24 bits in a short ???
+        size_t rgb = readBit16();
+        col.setRGBA(colNum & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, 0); //???
+
+        if (colNum & 0x4000)
+        {
+          // To do with the handle... ?
+        }
+      }
+
+      if (colNum & 0x2000)
+      {
+        hasFlag = true;
+        size_t transparency = readBit32();
+        if ((transparency >> 24) == 0)
+        { // BYLAYER
+        } else if ((transparency >> 24) == 1)
+        { // BYBLOCK
+        } else if ((transparency >> 24) == 3)
+        {
+          transparency &= 0xFF;
+        }
+      }
+
+      if (!hasFlag)
+      {
+        col.setIndex(colNum & 0xFF);
+      }
+    } else {
+      /*col.index_ = */readBit16(); // Always 0 !?
+      uint32_t rgba = readBit32();
+      col.setRGBA((rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF, 0);
+      uint8_t c = readRaw8();
+      if (c & 0x01)
+        col.setName(readText(version));
+      else if (c & 0x02)
+        col.setBookName(readText(version));
+    }
   } else {
-    col.index_ = readBit16();
+    col.setIndex(readBit16());
   }
+
   return col;
 }
 

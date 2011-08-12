@@ -2,7 +2,7 @@
 
 #include <core/includes.h>
 
-#include "colour.h"
+#include "../schema/colour.h"
 #include "handle.h"
 
 namespace libredwg2 {
@@ -65,8 +65,7 @@ class DWGBuffer
     void readBitExtrusion(const Version& version, double& x, double& y, double& z);
 
     /// "Colour" read
-    Colour readColour(const Version& version);
-//    Colour readColourAdvanced();
+    Colour readColour(const Version& version, bool isEntity = false);
 
     /// Handle references
     Handle readHandle();

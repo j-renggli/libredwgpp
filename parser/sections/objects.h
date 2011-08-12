@@ -16,7 +16,7 @@ class ObjectsParser
   // Definitions
   ////////////////////////////////////////////////////////////////
   private:
-    typedef std::map<size_t, boost::shared_ptr<Object> > ObjectsMap;
+    typedef std::map<size_t, boost::shared_ptr<libredwg2::Object> > ObjectsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members

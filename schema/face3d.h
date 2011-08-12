@@ -2,6 +2,7 @@
 
 #include "../includes.h"
 
+#include "colour.h"
 #include "vertex3d.h"
 
 namespace libredwg2 {
@@ -17,19 +18,21 @@ class Face3d
   // Members
   ////////////////////////////////////////////////////////////////
   private:
+    Colour colour_;
+
     Vertex3d apex_[4];
 
   ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Face3d(const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4)
-    {
-      apex_[0] = c1;
-      apex_[1] = c2;
-      apex_[2] = c3;
-      apex_[3] = c4;
-    }
+    Face3d(const Colour& col, const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4);
+//    {
+//      apex_[0] = c1;
+//      apex_[1] = c2;
+//      apex_[2] = c3;
+//      apex_[3] = c4;
+//    }
 
   ////////////////////////////////////////////////////////////////
   // Operators
