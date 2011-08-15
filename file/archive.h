@@ -4,7 +4,7 @@
 
 namespace libredwgpp {
 
-class Schema;
+class ISchema;
 
 class Archive
 {
@@ -41,8 +41,8 @@ class Archive
   public:
     /// Restore a schema from a file
     /// @param pathFile a (valid) file path to a drawing file
-    /// @param ptrSchema a pointer to a schema restored from that file. ptrSchema->reset() will be called
-    core::ResultCode restore(const boost::filesystem::path& pathFile, boost::shared_ptr<Schema>& ptrSchema);
+    /// @param ptrSchema a pointer to a schema restored from that file. If NULL, will create a new schema
+    core::ResultCode restore(const boost::filesystem::path& pathFile, boost::shared_ptr<ISchema>& ptrSchema);
 
     /// Read bytes from the file
     /// @param buffer the buffer to write data into

@@ -12,10 +12,10 @@ class Object : public libredwgpp::Object
     ~Object() {}
 
   public:
-    virtual core::ResultCode restore(Schema& schema, DWGBuffer& buffer, const Version& version) const;
+    virtual core::ResultCode restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const;
 
   private:
-    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const = 0;
+    virtual core::ResultCode restoreFull(ISchema& schema, DWGBuffer& buffer, const Version& version) const = 0;
 };
 
 ////////////////////////////////////////////////////////////////

@@ -1,12 +1,13 @@
 #pragma once
 
-#include <includes.h>
+#include "../includes.h"
 
 #include "dwgbuffer.h"
 
 namespace libredwgpp {
 
-class Schema;
+class ISchema;
+
 class Version;
 
 class Object
@@ -15,7 +16,7 @@ class Object
     ~Object() {}
 
   public:
-    virtual core::ResultCode restore(Schema& schema, DWGBuffer& buffer, const Version& version) const = 0;
+    virtual core::ResultCode restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const = 0;
 };
 
 ////////////////////////////////////////////////////////////////

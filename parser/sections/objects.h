@@ -5,10 +5,11 @@
 
 namespace libredwgpp {
 
+class ISchema;
+
 class ClassesParser;
 class DWGBuffer;
 class Object;
-class Schema;
 
 class ObjectsParser
 {
@@ -43,7 +44,7 @@ class ObjectsParser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    core::ResultCode restoreObject(Schema& schema, DWGBuffer& buffer, const ClassesParser& classes);
+    core::ResultCode restoreObject(ISchema& schema, DWGBuffer& buffer, const ClassesParser& classes);
 };
 
 ////////////////////////////////////////////////////////////////

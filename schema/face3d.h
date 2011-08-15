@@ -43,6 +43,8 @@ class Face3d
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
+    const Colour& getColour() const { return colour_; }
+
     const Vertex3d& getCorner(size_t i) const { return apex_[i]; }
 
 };

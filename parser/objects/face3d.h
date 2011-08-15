@@ -13,7 +13,7 @@ class Face3D : public Entity
 
   public:
 //    virtual core::ResultCode restoreFull(DWGBuffer& buffer, boost::shared_ptr<libredwgpp::Object>& ptrObject, const Version& version) const;
-    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const;
+    virtual core::ResultCode restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const;
 };
 
 ////////////////////////////////////////////////////////////////

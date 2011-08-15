@@ -9,6 +9,8 @@
 
 namespace libredwgpp {
 
+class ISchema;
+
 class Archive;
 class Decoder;
 class DWGBuffer;
@@ -19,10 +21,6 @@ class Parser
   // Definitions
   ////////////////////////////////////////////////////////////////
   protected:
-//    enum Sections
-//    {
-//      Classes
-//    };
 
   ////////////////////////////////////////////////////////////////
   // Members
@@ -31,8 +29,6 @@ class Parser
     Archive& archive_;
 
     Version version_;
-
-    boost::shared_ptr<Schema> ptrSchema_;
 
     boost::scoped_ptr<ClassesParser> ptrClasses_;
 
@@ -56,11 +52,9 @@ class Parser
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    const boost::shared_ptr<Schema>& getSchema() const { return ptrSchema_; }
-
     const Version& getVersion() const { return version_; }
 
-    core::ResultCode parse();
+    core::ResultCode parse(ISchema& schema);
 
   private:
     virtual boost::shared_ptr<Decoder> getDecoder(int compressionMethod) = 0;
@@ -70,7 +64,7 @@ class Parser
     virtual core::ResultCode parsePreview();
     virtual core::ResultCode parseClasses();
 
-    virtual core::ResultCode parseObjects(ObjectsParser& parser) = 0;
+    virtual core::ResultCode parseObjects(ISchema& schema, ObjectsParser& parser) = 0;
 
     virtual core::ResultCode parseFileHeader() = 0;
     virtual core::ResultCode parseInfo() = 0;

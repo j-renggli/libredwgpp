@@ -9,7 +9,7 @@ namespace parserobject {
 ////////////////////////////////////////////////////////////////
 
 // P. 142
-core::ResultCode Dictionary::restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode Dictionary::restoreFull(ISchema& schema, DWGBuffer& buffer, const Version& version) const
 {
   size_t numItems = buffer.readBit32();
 //  LOG_DEBUG("Num items " << numItems);

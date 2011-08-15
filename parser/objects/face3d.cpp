@@ -10,10 +10,13 @@ namespace libredwgpp {
 namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
-int i = 0;
+
 // P. 124
-core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const
+core::ResultCode Face3D::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const
 {
+  libredwgpp::Vertex3d corners[4];
+  uint16_t invisibleEdgeFlag = 0;
+
   if (version.isAtLeast(Version::R2000))
   {
     bool hasFlag = ~buffer.readBit();
@@ -26,7 +29,6 @@ core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Co
       z = buffer.readRawDouble();
     }
 
-    libredwgpp::Vertex3d corners[4];
     corners[0] = libredwgpp::Vertex3d(x, y, z);
 
     for (int i = 0; i < 3; ++i)
@@ -39,23 +41,23 @@ core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Co
 
     if (hasFlag)
     {
-      buffer.readBit16();
+      invisibleEdgeFlag = buffer.readBit16();
     }
-
-    schema.addFace3d(libredwgpp::Face3d(colour, corners[0], corners[1], corners[2], corners[3]));
   } else {
-    for (int i = 1; i < 5; ++i)
+    libredwgpp::Vertex3d corners[4];
+
+    for (int i = 0; i < 4; ++i)
     {
       double x = buffer.readBitDouble();
       double y = buffer.readBitDouble();
       double z = buffer.readBitDouble();
-  //    double x, y, z;
-  //    buffer.readBitExtrusion(version, x, y, z);
-
-      LOG_DEBUG("corner " << i << " : [" << x << ", " << y << ", " << z << "]");
-      return core::rcFailure;
+      corners[i] = libredwgpp::Vertex3d(x, y, z);
     }
+
+    invisibleEdgeFlag = buffer.readBit16();
   }
+
+  schema.addFace3d(libredwgpp::Face3d(colour, corners[0], corners[1], corners[2], corners[3]));
 
   return core::rcSuccess;
 }

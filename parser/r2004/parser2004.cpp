@@ -173,7 +173,7 @@ core::ResultCode Parser2004::parseMap()
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Parser2004::parseObjects(ObjectsParser& parser)
+core::ResultCode Parser2004::parseObjects(ISchema& schema, ObjectsParser& parser)
 {
   // If info, then map !
   if (ptrInfo_ == NULL)

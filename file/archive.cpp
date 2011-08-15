@@ -39,7 +39,7 @@ core::ResultCode Archive::read(core::IWriteBuffer& buffer, size_t pos, size_t le
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost::shared_ptr<Schema>& ptrSchema)
+core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost::shared_ptr<ISchema>& ptrSchema)
 {
   // Basic tests
   if (!exists(pathFile) || !is_regular(pathFile))
@@ -66,13 +66,13 @@ core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost
 
   ASSERT(ptrParser != NULL);
 
-  rc = ptrParser->parse();
-  if (rc.isFailure())
-    return rc;
+  if (ptrSchema == NULL)
+  {
+    LOG_ERROR("Null schema not supported yet");
+    return core::rcFailure;
+  }
 
-  ptrSchema = ptrParser->getSchema();
-
-  return core::rcSuccess;
+  return ptrParser->parse(*ptrSchema);
 }
 
 ////////////////////////////////////////////////////////////////

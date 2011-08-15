@@ -9,7 +9,7 @@ namespace parserobject {
 ////////////////////////////////////////////////////////////////
 
 // P. 142
-core::ResultCode ShapeFile::restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode ShapeFile::restoreFull(ISchema& schema, DWGBuffer& buffer, const Version& version) const
 {
   UnicodeString strShapeFileName = buffer.readText(version);
 //  LOG_DEBUG(strShapeFileName);

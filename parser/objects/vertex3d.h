@@ -12,7 +12,7 @@ class Vertex3D : public Entity
     ~Vertex3D() {}
 
   public:
-    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const;
+    virtual core::ResultCode restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const;
 };
 
 ////////////////////////////////////////////////////////////////

@@ -14,10 +14,10 @@ class Entity : public libredwgpp::Object
     ~Entity() {}
 
   public:
-    virtual core::ResultCode restore(Schema& schema, DWGBuffer& buffer, const Version& version) const;
+    virtual core::ResultCode restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const;
 
   private:
-    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const = 0;
+    virtual core::ResultCode restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const = 0;
 };
 
 ////////////////////////////////////////////////////////////////

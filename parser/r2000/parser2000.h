@@ -55,7 +55,7 @@ class Parser2000 : public Parser
     virtual core::ResultCode parseInfo();
     virtual core::ResultCode parseMap();
 
-    virtual core::ResultCode parseObjects(ObjectsParser& parser);
+    virtual core::ResultCode parseObjects(ISchema& schema, ObjectsParser& parser);
 
 };
 

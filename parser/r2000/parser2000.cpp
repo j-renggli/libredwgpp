@@ -123,7 +123,7 @@ core::ResultCode Parser2000::parseMap()
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Parser2000::parseObjects(ObjectsParser& parser)
+core::ResultCode Parser2000::parseObjects(ISchema& schema, ObjectsParser& parser)
 {
   if (ptrClasses_ == NULL)
   {
@@ -161,7 +161,7 @@ core::ResultCode Parser2000::parseObjects(ObjectsParser& parser)
       if (rc.isFailure())
         return rc;
 
-      rc = parser.restoreObject(*ptrSchema_, objectData, *ptrClasses_);
+      rc = parser.restoreObject(schema, objectData, *ptrClasses_);
       if (rc.isFailure())
         return rc;
     }

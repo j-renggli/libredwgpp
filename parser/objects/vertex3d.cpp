@@ -10,7 +10,7 @@ namespace parserobject {
 //int asdf = 0;
 // P. 112
 
-core::ResultCode Vertex3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const
+core::ResultCode Vertex3D::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const
 {
   buffer.readRaw8();
 

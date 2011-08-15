@@ -58,10 +58,8 @@ core::ResultCode Parser::create(Archive& archive, boost::shared_ptr<Parser>& ptr
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Parser::parse()
+core::ResultCode Parser::parse(ISchema& schema)
 {
-  ptrSchema_.reset(new Schema);
-
   LOG_DEBUG("FileHeader");
   core::ResultCode rc = parseFileHeader();
   if (rc.isFailure())
@@ -86,7 +84,7 @@ core::ResultCode Parser::parse()
 
   LOG_DEBUG("Objects");
   ptrObjects_.reset(new ObjectsParser(version_));
-  rc = parseObjects(*ptrObjects_);
+  rc = parseObjects(schema, *ptrObjects_);
   if (rc.isFailure())
     return rc;
 

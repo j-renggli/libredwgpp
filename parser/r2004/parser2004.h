@@ -55,7 +55,7 @@ class Parser2004 : public Parser
     virtual core::ResultCode parseFileHeader();
     virtual core::ResultCode parseInfo();
     virtual core::ResultCode parseMap();
-    virtual core::ResultCode parseObjects(ObjectsParser& parser);
+    virtual core::ResultCode parseObjects(ISchema& schema, ObjectsParser& parser);
 
 };
 

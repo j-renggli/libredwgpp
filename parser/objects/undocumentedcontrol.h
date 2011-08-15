@@ -17,7 +17,7 @@ class UndocumentedControl : public parserobject::Object
     ~UndocumentedControl() {}
 
   public:
-    virtual core::ResultCode restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const;
+    virtual core::ResultCode restoreFull(ISchema& schema, DWGBuffer& buffer, const Version& version) const;
 };
 
 ////////////////////////////////////////////////////////////////

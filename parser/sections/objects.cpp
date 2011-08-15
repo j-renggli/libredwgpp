@@ -41,7 +41,7 @@ version_(version)
 
 std::map<int, int> mapx;
 
-core::ResultCode ObjectsParser::restoreObject(Schema& schema, DWGBuffer& buffer, const ClassesParser& classes)
+core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer, const ClassesParser& classes)
 {
   size_t objectSize = buffer.readModularShort();
   size_t type = buffer.readBit16();

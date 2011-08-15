@@ -8,7 +8,7 @@ namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Object::restore(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode Object::restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const
 {
 //  LOG_DEBUG("object");
 

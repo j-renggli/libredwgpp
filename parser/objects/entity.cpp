@@ -8,7 +8,7 @@ namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Entity::restore(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const
 {
 //  LOG_DEBUG("entity");
 //LOG_DEBUG(buffer.getPosition() << ", " << buffer.getOffset());

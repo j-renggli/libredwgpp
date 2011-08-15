@@ -6,7 +6,7 @@ namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode UndocumentedControl::restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode UndocumentedControl::restoreFull(ISchema& schema, DWGBuffer& buffer, const Version& version) const
 {
   /*size_t numEntries = */buffer.readModularShort();
 //  LOG_DEBUG(strName_ << " num entries " << numEntries);

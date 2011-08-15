@@ -9,7 +9,7 @@ namespace parserobject {
 ////////////////////////////////////////////////////////////////
 
 // P. 142
-core::ResultCode Layer::restoreFull(Schema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode Layer::restoreFull(ISchema& schema, DWGBuffer& buffer, const Version& version) const
 {
   UnicodeString strLayerName = buffer.readText(version);
 //  LOG_DEBUG(strLayerName);
