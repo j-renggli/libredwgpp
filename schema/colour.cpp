@@ -1,6 +1,6 @@
 #include "colour.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 Colour::IndexMap Colour::s_Index2RGB;
 
@@ -35,6 +35,7 @@ void Colour::setBookName(const UnicodeString& strName)
 void Colour::setIndex(uint32_t index)
 {
   size_t rgba = s_Index2RGB[index];
+
   r_ = (rgba >> 24) & 0xFF;
   g_ = (rgba >> 16) & 0xFF;
   b_ = (rgba >> 8) & 0xFF;
@@ -59,6 +60,10 @@ void Colour::setName(const UnicodeString& strName)
 
 void Colour::setRGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
+  r_ = r;
+  g_ = g;
+  b_ = b;
+  a_ = a;
 }
 
 ////////////////////////////////////////////////////////////////

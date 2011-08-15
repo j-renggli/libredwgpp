@@ -7,7 +7,7 @@
 #include "sections/classes.h"
 #include "sections/objects.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Archive;
 class Decoder;

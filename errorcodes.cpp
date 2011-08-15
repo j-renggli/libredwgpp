@@ -1,6 +1,6 @@
 #include "errorcodes.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 core::ResultCode rcFileNotFound(core::ResultCode::eError, 200);
 core::ResultCode rcInputError(core::ResultCode::eError, 201);

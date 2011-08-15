@@ -2,7 +2,7 @@
 
 #include "../decoder.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Archive;
 class DWGBuffer;

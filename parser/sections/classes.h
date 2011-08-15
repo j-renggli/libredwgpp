@@ -3,7 +3,7 @@
 #include "../class.h"
 #include "../version.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class DWGBuffer;
 

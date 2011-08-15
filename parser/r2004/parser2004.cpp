@@ -6,7 +6,7 @@
 #include "sectionmap.h"
 #include "sectionobjects.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

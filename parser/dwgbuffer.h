@@ -5,7 +5,7 @@
 #include "../schema/colour.h"
 #include "handle.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Version;
 

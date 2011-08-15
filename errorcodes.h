@@ -2,7 +2,7 @@
 
 #include <core/includes.h>
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 extern core::ResultCode rcFileNotFound;
 extern core::ResultCode rcInputError;

@@ -4,7 +4,7 @@
 
 #include <schema/colour.h>
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

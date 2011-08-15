@@ -2,7 +2,7 @@
 
 #include "../includes.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Vertex3d
 {

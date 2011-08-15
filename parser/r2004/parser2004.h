@@ -2,7 +2,7 @@
 
 #include "../parser.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class SectionInfo;
 class SectionMap;

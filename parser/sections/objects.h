@@ -3,7 +3,7 @@
 #include "../class.h"
 #include "../version.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class ClassesParser;
 class DWGBuffer;
@@ -16,7 +16,7 @@ class ObjectsParser
   // Definitions
   ////////////////////////////////////////////////////////////////
   private:
-    typedef std::map<size_t, boost::shared_ptr<libredwg2::Object> > ObjectsMap;
+    typedef std::map<size_t, boost::shared_ptr<libredwgpp::Object> > ObjectsMap;
 
   ////////////////////////////////////////////////////////////////
   // Members

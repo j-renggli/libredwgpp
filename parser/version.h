@@ -1,8 +1,8 @@
 #pragma once
 
-#include <includes.h>
+#include "../includes.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Version
 {

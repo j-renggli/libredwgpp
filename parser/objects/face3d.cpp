@@ -5,7 +5,7 @@
 #include <schema/face3d.h>
 #include <schema/schema.h>
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 namespace parserobject {
 
@@ -26,15 +26,15 @@ core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Co
       z = buffer.readRawDouble();
     }
 
-    libredwg2::Vertex3d corners[4];
-    corners[0] = libredwg2::Vertex3d(x, y, z);
+    libredwgpp::Vertex3d corners[4];
+    corners[0] = libredwgpp::Vertex3d(x, y, z);
 
     for (int i = 0; i < 3; ++i)
     {
       buffer.readBitDouble(x);
       buffer.readBitDouble(y);
       buffer.readBitDouble(z);
-      corners[i + 1] = libredwg2::Vertex3d(x, y, z);
+      corners[i + 1] = libredwgpp::Vertex3d(x, y, z);
     }
 
     if (hasFlag)
@@ -42,7 +42,7 @@ core::ResultCode Face3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Co
       buffer.readBit16();
     }
 
-    schema.addFace3d(libredwg2::Face3d(colour, corners[0], corners[1], corners[2], corners[3]));
+    schema.addFace3d(libredwgpp::Face3d(colour, corners[0], corners[1], corners[2], corners[3]));
   } else {
     for (int i = 1; i < 5; ++i)
     {

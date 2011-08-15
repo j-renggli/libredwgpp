@@ -1,4 +1,4 @@
-PROJECT(libredwg2)
+PROJECT(libredwgpp)
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -63,14 +63,4 @@ core
 
 ######## LIBRARIES ########
 
-ADD_LIBRARY(libredwg2 SHARED ${DWG_SRC})
-
-SET(TESTING_SRC
-test.cpp
-)
-
-LINK_LIBRARIES(
-libredwg2
-)
-
-ADD_EXECUTABLE(testing ${TESTING_SRC})
+ADD_LIBRARY(libredwgpp SHARED ${DWG_SRC})

@@ -4,7 +4,7 @@
 
 #include "../dwgbuffer.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

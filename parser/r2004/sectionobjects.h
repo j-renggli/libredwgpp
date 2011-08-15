@@ -2,7 +2,7 @@
 
 #include "section2004.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class SectionObjects : public Section2004
 {

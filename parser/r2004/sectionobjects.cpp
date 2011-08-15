@@ -3,7 +3,7 @@
 #include "../dwgbuffer.h"
 #include "../version.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 const int32_t SectionObjects::s_guard = 0x4163043b;
 

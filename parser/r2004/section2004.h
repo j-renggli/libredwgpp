@@ -5,7 +5,7 @@
 #include <file/archive.h>
 #include <parser/section.h>
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class DWGBuffer;
 class SectionMap;

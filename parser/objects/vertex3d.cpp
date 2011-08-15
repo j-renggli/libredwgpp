@@ -2,12 +2,12 @@
 
 #include "../version.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
-int asdf = 0;
+//int asdf = 0;
 // P. 112
 
 core::ResultCode Vertex3D::restoreFull(Schema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const

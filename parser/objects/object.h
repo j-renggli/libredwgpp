@@ -2,11 +2,11 @@
 
 #include "../object.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 namespace parserobject {
 
-class Object : public libredwg2::Object
+class Object : public libredwgpp::Object
 {
   public:
     ~Object() {}

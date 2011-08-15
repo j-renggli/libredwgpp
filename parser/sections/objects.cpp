@@ -13,7 +13,7 @@
 #include "../objects/undocumentedcontrol.h"
 #include "../objects/vertex3d.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

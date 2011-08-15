@@ -4,7 +4,7 @@
 
 #include "sectionmap.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

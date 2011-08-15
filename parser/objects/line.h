@@ -2,7 +2,7 @@
 
 #include "entity.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 namespace parserobject {
 

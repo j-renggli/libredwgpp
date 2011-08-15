@@ -2,7 +2,7 @@
 
 #include "version.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ UnicodeString DWGBuffer::readASCII()
   {
     char c = readRaw8();
     if (c == 0) {
-//      strText.resize(i);
+      strText.truncate(i);
       return strText;
 //    } else if (!isprint(c)) {
 //      strText.setCharAt(i, '~'); // ?
@@ -103,17 +103,18 @@ uint8_t DWGBuffer::readBit2()
 uint8_t DWGBuffer::readBit3()
 {
   core::Buffer result = 0;
-
+//LOG_DEBUG("New");
   for (int i = 0; i < 3; ++i)
   {
     result <<= 1;
     bool isOne = readBit();
+//LOG_DEBUG(isOne);
     if (isOne)
       ++result;
     else
       break;
   }
-
+//LOG_DEBUG(size_t(result));
   return result;
 }
 
@@ -291,7 +292,7 @@ Colour DWGBuffer::readColour(const Version& version, bool isEntity)
     } else {
       /*col.index_ = */readBit16(); // Always 0 !?
       uint32_t rgba = readBit32();
-      col.setRGBA((rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF, 0);
+      col.setRGBA((rgba >> 16) & 0xFF, (rgba >> 8) & 0xFF, rgba & 0xFF, 255);
       uint8_t c = readRaw8();
       if (c & 0x01)
         col.setName(readText(version));
@@ -330,27 +331,23 @@ Handle DWGBuffer::readHandle()
 
 int32_t DWGBuffer::readModularChar()
 {
-//  bool isNegative = false;
   uint32_t byte;
   int32_t result = 0;
-//  int j = 0;
-//  for (int i = 3; i >= 0; --i)
   for (int j = 0; j < 25; j += 7)
   {
     byte = readRaw8();
+//    LOG_DEBUG(result << " " << std::hex << size_t(byte));
     if (byte & 0x80) {
       byte &= 0x7F;
+      result |= (byte << j);
     } else {
-      result |= ((byte & 0xbf) << j);
+      result |= ((byte & 0x3F) << j);
 
       if (byte & 0x40)
         return -result;
 
       return result;
     }
-
-    result |= (byte << j);
-//    j += 7;
   }
 
   // Should not arrive here

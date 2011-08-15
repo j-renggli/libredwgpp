@@ -2,13 +2,13 @@
 
 #include "../object.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Colour;
 
 namespace parserobject {
 
-class Entity : public libredwg2::Object
+class Entity : public libredwgpp::Object
 {
   public:
     ~Entity() {}

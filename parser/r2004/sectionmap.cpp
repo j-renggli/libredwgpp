@@ -2,7 +2,7 @@
 
 #include "../dwgbuffer.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 const int32_t SectionMap::s_guard = 0x41630e3b;
 

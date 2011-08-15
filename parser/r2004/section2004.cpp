@@ -6,7 +6,7 @@
 // TODO
 #include "decoder2004_2.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

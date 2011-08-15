@@ -4,7 +4,7 @@
 
 #include "face3d.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Schema
 {

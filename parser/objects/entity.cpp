@@ -2,7 +2,7 @@
 
 #include <parser/version.h>
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 namespace parserobject {
 

@@ -5,7 +5,7 @@
 #include "colour.h"
 #include "vertex3d.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Face3d
 {

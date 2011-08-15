@@ -9,7 +9,7 @@
 #include <file/archive.h>
 #include <schema/schema.h>
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 

@@ -2,11 +2,16 @@
 
 #include "../includes.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class Colour
 {
   public:
+    uint8_t getR() const { return r_; }
+    uint8_t getG() const { return g_; }
+    uint8_t getB() const { return b_; }
+    uint8_t getA() const { return a_; }
+
     void setBookName(const UnicodeString& strName);
 
     void setIndex(uint32_t index);

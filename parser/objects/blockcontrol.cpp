@@ -1,6 +1,6 @@
 #include "blockcontrol.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 namespace parserobject {
 

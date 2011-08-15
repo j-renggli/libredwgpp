@@ -1,6 +1,6 @@
 #include "section.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 std::map<std::string, Section::Type> Section::s_mapTypes;
 

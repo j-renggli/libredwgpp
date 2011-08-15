@@ -3,7 +3,7 @@
 #include "../page.h"
 #include "section2004.h"
 
-namespace libredwg2 {
+namespace libredwgpp {
 
 class SectionInfo : public Section2004
 {
