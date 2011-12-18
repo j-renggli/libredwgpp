@@ -308,23 +308,51 @@ Colour DWGBuffer::readColour(const Version& version, bool isEntity)
 
 ////////////////////////////////////////////////////////////////
 
+EntityData DWGBuffer::readEED()
+{
+  EntityData eed;
+
+  while (true)
+  {
+    uint32_t size = readBit16();
+    if (size == 0)
+      break;
+
+//    fullSize += size;
+    eed.addHandle(readHandle());
+
+    std::string strToRemove;
+    for (size_t i = 0; i < size; ++i)
+    {
+      // Do something more with it...
+      strToRemove.push_back((char)readRaw8());
+      if (!isprint(strToRemove[i]))
+        strToRemove[i] = '-';
+    }
+    LOG_DEBUG(strToRemove);
+  }
+
+  return eed;
+}
+
+////////////////////////////////////////////////////////////////
+
 Handle DWGBuffer::readHandle()
 {
-  Handle handle;
-  handle.code_ = readRaw8();
-  uint8_t size = handle.code_ & 0x0F;
-  handle.code_ = (handle.code_ & 0xF0) >> 4;
+  uint8_t code = readRaw8();
+  uint8_t size = code & 0x0F;
+  code = (code & 0xF0) >> 4;
   if (size > 4)
   {
     throw std::overflow_error("Handle size");
   }
 
-  handle.value_ = 0;
-  uint8_t* pValue = (uint8_t*)(&handle.value_);
+  uint32_t value = 0;
+  uint8_t* pValue = (uint8_t*)(&value);
   for (int i = size - 1; i >= 0; --i)
     pValue[i] = readRaw8();
 
-  return handle;
+  return Handle(code, value);
 }
 
 ////////////////////////////////////////////////////////////////

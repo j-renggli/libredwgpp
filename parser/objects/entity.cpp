@@ -8,7 +8,7 @@ namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
 
-core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const
+core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Handle& handle, const Version& version) const
 {
 //  LOG_DEBUG("entity");
 //LOG_DEBUG(buffer.getPosition() << ", " << buffer.getOffset());
@@ -55,47 +55,7 @@ core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Versi
   bool hasLinks = ~buffer.readBit();
 
   Colour colour = buffer.readColour(version, true);
-//  if (version.isAtLeast(Version::R2004))
-//  {
-//    if (hasLinks)
-//    {
-//      bool colourMode = buffer.readBit();
-//      if (colourMode)
-//      {
-//        colour.setIndex(buffer.readRaw8());
-//      } else {
-//        size_t flags = buffer.readRaw16();
-//        if (flags & 0x8000)
-//        {
-//          // TODO: doc says BS of 24 bits for RGB  !?
-//          int r = buffer.readRaw8();
-//          int g = buffer.readRaw8();
-//          int b = buffer.readRaw8();
-//          int a = buffer.readRaw8();
-//          UnicodeString strName = buffer.readText(version);
-//
-//          colour.setRGBA(r, g, b, a);
-//          colour.setName(strName);
-//        }
-//
-//        if (flags & 0x4000)
-//        {
-//        }
-//
-//        if (flags & 0x2000)
-//        {
-//          int transparency = buffer.readBit32();
-//        }
-//      }
-//    } else {
-//      buffer.readBit();
-//    }
-//  } else {
-//    colour = buffer.readColour(version);
-//  }
-//  ent->linetype_scale = bit_read_BD(dat);
 
-//  Colour colour = data.readColour();
   double lineScale = buffer.readBitDouble();
 
   if (version.isAtLeast(Version::R2000))
@@ -124,7 +84,7 @@ core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Versi
 //  return core::rcSuccess;
 //LOG_DEBUG(buffer.getPosition() << ", " << buffer.getOffset());
 
-  return restoreFull(schema, buffer, colour, version);
+  return restoreFull(schema, buffer, colour, handle, version);
 }
 
 ////////////////////////////////////////////////////////////////

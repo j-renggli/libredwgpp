@@ -4,7 +4,8 @@ namespace libredwgpp {
 
 ////////////////////////////////////////////////////////////////
 
-Face3d::Face3d(const Colour& col, const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4) :
+Face3d::Face3d(size_t id, const Colour& col, const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4) :
+id_(id),
 colour_(col)
 {
   apex_[0] = c1;

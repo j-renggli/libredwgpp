@@ -24,15 +24,18 @@ parser/objects/blockcontrol.cpp
 parser/objects/dictionary.cpp
 parser/objects/entity.cpp
 parser/objects/face3d.cpp
+parser/objects/group.cpp
 parser/objects/layer.cpp
 parser/objects/line.cpp
 parser/objects/object.cpp
 parser/objects/shapefile.cpp
 parser/objects/undocumentedcontrol.cpp
 parser/objects/vertex3d.cpp
+parser/objects/viewport.cpp
 
 parser/class.cpp
 parser/dwgbuffer.cpp
+parser/handle.cpp
 parser/parser.cpp
 parser/section.cpp
 parser/version.cpp

@@ -6,10 +6,10 @@ namespace libredwgpp {
 
 namespace parserobject {
 
-class BlockControl : public parserobject::Object
+class Viewport : public parserobject::Object
 {
   public:
-    ~BlockControl() {}
+    ~Viewport() {}
 
   public:
     virtual core::ResultCode restoreFull(ISchema& schema, DWGBuffer& buffer, const Handle& handle, const Version& version) const;

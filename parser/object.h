@@ -8,6 +8,7 @@ namespace libredwgpp {
 
 class ISchema;
 
+class Handle;
 class Version;
 
 class Object
@@ -16,7 +17,7 @@ class Object
     ~Object() {}
 
   public:
-    virtual core::ResultCode restore(ISchema& schema, DWGBuffer& buffer, const Version& version) const = 0;
+    virtual core::ResultCode restore(ISchema& schema, DWGBuffer& buffer, const Handle& handle, const Version& version) const = 0;
 };
 
 ////////////////////////////////////////////////////////////////

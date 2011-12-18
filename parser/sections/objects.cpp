@@ -7,11 +7,13 @@
 #include "../objects/blockcontrol.h"
 #include "../objects/dictionary.h"
 #include "../objects/face3d.h"
+#include "../objects/group.h"
 #include "../objects/layer.h"
 #include "../objects/line.h"
 #include "../objects/shapefile.h"
 #include "../objects/undocumentedcontrol.h"
 #include "../objects/vertex3d.h"
+#include "../objects/viewport.h"
 
 namespace libredwgpp {
 
@@ -33,8 +35,10 @@ version_(version)
   mObjects_[60] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("ViewControl"));
   mObjects_[62] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("UCSControl"));
   mObjects_[64] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("Table_vport"));
+  mObjects_[65] = boost::shared_ptr<parserobject::Viewport>(new parserobject::Viewport);
   mObjects_[66] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("Table_appid"));
   mObjects_[68] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("DimstyleControl"));
+  mObjects_[72] = boost::shared_ptr<parserobject::Group>(new parserobject::Group);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -53,7 +57,7 @@ core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer
     mapx[type] = mapx[type] + 1;
   }
 
-  if (type >= 10 && type <= 19)
+//  if (type >= 10 && type <= 19)
   {
 //  LOG_DEBUG("type " << type << " / " << objectSize);
   }
@@ -94,34 +98,10 @@ core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer
   Handle handle = buffer.readHandle();
 //  LOG_DEBUG("handle " << (int16_t)handle.code_ << " " << handle.value_);
 
-  uint32_t fullSize = 0;
-  while (true)
-  {
-    uint32_t size = buffer.readBit16();
-    if (size == 0)
-      break;
-
-    fullSize += size;
-//    if (fullSize == 0) {
-//      fullSize = size;
-//    } else {
-//
-//    }
-    Handle h = buffer.readHandle();
-//    LOG_DEBUG("size " << size);
-//    LOG_DEBUG("handle " << (int16_t)h.code_ << " " << h.value_);
-    std::string strToRemove;
-    for (size_t i = fullSize - size; i < fullSize; ++i)
-    {
-      // Do something more with it...
-      strToRemove.push_back((char)buffer.readRaw8());
-      if (!isprint(strToRemove[i]))
-        strToRemove[i] = '-';
-    }
-    LOG_DEBUG(strToRemove);
-  }
-
-  core::ResultCode rc = it->second->restore(schema, buffer, version_);
+  buffer.readEED();
+//LOG_DEBUG(type);
+  core::ResultCode rc = it->second->restore(schema, buffer, handle, version_);
+//LOG_DEBUG(type);
   if (rc.isFailure())
     return rc;
 

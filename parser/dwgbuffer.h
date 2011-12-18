@@ -3,6 +3,7 @@
 #include <core/includes.h>
 
 #include "../schema/colour.h"
+#include "entitydata.h"
 #include "handle.h"
 
 namespace libredwgpp {
@@ -67,6 +68,9 @@ class DWGBuffer
     /// "Colour" read
     Colour readColour(const Version& version, bool isEntity = false);
 
+    /// Extended entity data
+    EntityData readEED();
+
     /// Handle references
     Handle readHandle();
 
@@ -75,10 +79,10 @@ class DWGBuffer
     int32_t readModularShort();
 
     /// "Raw" read
-    uint8_t readRaw8();
-    uint16_t readRaw16();
-    uint32_t readRaw32();
-    double readRawDouble();
+    uint8_t readRaw8();     // RC
+    uint16_t readRaw16();   // RS
+    uint32_t readRaw32();   // RL
+    double readRawDouble(); //
 
     /// "Text" read
     UnicodeString readText(const Version& version);

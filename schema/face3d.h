@@ -15,18 +15,10 @@ class Face3d
   public:
 
   ////////////////////////////////////////////////////////////////
-  // Members
-  ////////////////////////////////////////////////////////////////
-  private:
-    Colour colour_;
-
-    Vertex3d apex_[4];
-
-  ////////////////////////////////////////////////////////////////
   // Constructors & Destructor
   ////////////////////////////////////////////////////////////////
   public:
-    Face3d(const Colour& col, const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4);
+    Face3d(size_t id, const Colour& col, const Vertex3d& c1, const Vertex3d& c2, const Vertex3d& c3, const Vertex3d& c4);
 //    {
 //      apex_[0] = c1;
 //      apex_[1] = c2;
@@ -43,9 +35,21 @@ class Face3d
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
+    const size_t getID() const { return id_; }
+
     const Colour& getColour() const { return colour_; }
 
     const Vertex3d& getCorner(size_t i) const { return apex_[i]; }
+
+  ////////////////////////////////////////////////////////////////
+  // Members
+  ////////////////////////////////////////////////////////////////
+  private:
+    size_t id_;
+
+    Colour colour_;
+
+    Vertex3d apex_[4];
 
 };
 

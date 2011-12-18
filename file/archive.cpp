@@ -48,7 +48,7 @@ core::ResultCode Archive::restore(const boost::filesystem::path& pathFile, boost
     return rcFileNotFound;
   }
 
-  fileStream_.open(pathFile.native_file_string().c_str(), std::ios::binary);
+  fileStream_.open(pathFile.string().c_str(), std::ios::binary);
   if (!fileStream_)
   {
     LOG_ERROR("File could not be loaded: " << pathFile);

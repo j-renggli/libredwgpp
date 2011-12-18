@@ -12,7 +12,7 @@ namespace parserobject {
 ////////////////////////////////////////////////////////////////
 
 // P. 124
-core::ResultCode Face3D::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Version& version) const
+core::ResultCode Face3D::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Handle& handle, const Version& version) const
 {
   libredwgpp::Vertex3d corners[4];
   uint16_t invisibleEdgeFlag = 0;
@@ -57,7 +57,11 @@ core::ResultCode Face3D::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
     invisibleEdgeFlag = buffer.readBit16();
   }
 
-  schema.addFace3d(libredwgpp::Face3d(colour, corners[0], corners[1], corners[2], corners[3]));
+  if (colour.getR() == 0 && colour.getG() > 0 && colour.getB() > 0)
+  {
+    LOG_DEBUG(handle.getValue() << ": " << handle.getCode() << " " << int(colour.getR()) << " " << int(colour.getG()) << " " << int(colour.getB()));
+  }
+  schema.addFace3d(libredwgpp::Face3d(handle.getValue(), colour, corners[0], corners[1], corners[2], corners[3]));
 
   return core::rcSuccess;
 }
