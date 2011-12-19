@@ -212,11 +212,11 @@ void DWGBuffer::readBitDouble(double& valueWithDefault)
       return;
     case 1:
     LOG_DEBUG("Double 4");
-    exit(0);
+//    exit(0);
       return;
     case 2:
     LOG_DEBUG("Double 6");
-    exit(0);
+//    exit(0);
       return;
     default:
     {

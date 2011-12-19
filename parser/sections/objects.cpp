@@ -8,6 +8,7 @@
 #include "../objects/dictionary.h"
 #include "../objects/face3d.h"
 #include "../objects/group.h"
+#include "../objects/insert.h"
 #include "../objects/layer.h"
 #include "../objects/line.h"
 #include "../objects/shapefile.h"
@@ -22,6 +23,7 @@ namespace libredwgpp {
 ObjectsParser::ObjectsParser(const Version& version) :
 version_(version)
 {
+  mObjects_[ 7] = boost::shared_ptr<parserobject::Insert>(new parserobject::Insert);
   mObjects_[11] = boost::shared_ptr<parserobject::Vertex3D>(new parserobject::Vertex3D);
   mObjects_[19] = boost::shared_ptr<parserobject::Line>(new parserobject::Line);
   mObjects_[28] = boost::shared_ptr<parserobject::Face3D>(new parserobject::Face3D);

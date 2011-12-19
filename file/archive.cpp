@@ -22,6 +22,12 @@ Archive::~Archive()
 
 core::ResultCode Archive::read(core::IWriteBuffer& buffer, size_t pos, size_t len, bool strict)
 {
+//  if (pos > 824920 && pos < 825000)
+////  if (pos > 859800 && pos < 859850)
+//  {
+//    LOG_DEBUG(pos << " --- " << len);
+//  }
+
   if (pos + len > size_)
   {
     if (strict)

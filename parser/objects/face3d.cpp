@@ -59,8 +59,15 @@ core::ResultCode Face3D::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
 
   if (colour.getR() == 0 && colour.getG() > 0 && colour.getB() > 0)
   {
-    LOG_DEBUG(handle.getValue() << ": " << handle.getCode() << " " << int(colour.getR()) << " " << int(colour.getG()) << " " << int(colour.getB()));
+//  return core::rcFailure;
+    for (int i = 0; i < 4; ++i)
+    {
+      corners[i] = libredwgpp::Vertex3d(corners[i].get(0) + 13.2137, corners[i].get(1) + 17.2695, corners[i].get(2) + 3.3);
+//      corners[i] = libredwgpp::Vertex3d(corners[i].get(0) + 15.9695, corners[i].get(1) + 22.1137, corners[i].get(2) + 0.350006);
+    }
+//    LOG_DEBUG(handle.getValue() << ": " << handle.getCode() << " " << int(colour.getR()) << " " << int(colour.getG()) << " " << int(colour.getB()));
   }
+//    LOG_DEBUG(corners[0].get(0) << ", " << corners[0].get(1) << " " << corners[0].get(2));
   schema.addFace3d(libredwgpp::Face3d(handle.getValue(), colour, corners[0], corners[1], corners[2], corners[3]));
 
   return core::rcSuccess;

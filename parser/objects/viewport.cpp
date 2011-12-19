@@ -20,7 +20,7 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   bool xdep = buffer.readBit();
   double viewHeight = buffer.readBitDouble();
   double aspectRatio = buffer.readBitDouble();
-  LOG_DEBUG(strName << " " << bit1 << " " << xref << " " << xdep << " " << viewHeight << ":" << aspectRatio);
+//  LOG_DEBUG(strName << " " << bit1 << " " << xref << " " << xdep << " " << viewHeight << ":" << aspectRatio);
   double centerX = buffer.readRawDouble();
   double centerY = buffer.readRawDouble();
   double targetX = buffer.readBitDouble();
@@ -30,9 +30,9 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   double dirY = buffer.readBitDouble();
   double dirZ = buffer.readBitDouble();
   double twist = buffer.readBitDouble();
-  LOG_DEBUG("[" << centerX << ", " << centerY << "] (" << twist << ")");
-  LOG_DEBUG("[" << targetX << ", " << targetY << ", " << targetZ << "]");
-  LOG_DEBUG("[" << dirX << ", " << dirY << ", " << dirZ << "]");
+//  LOG_DEBUG("[" << centerX << ", " << centerY << "] (" << twist << ")");
+//  LOG_DEBUG("[" << targetX << ", " << targetY << ", " << targetZ << "]");
+//  LOG_DEBUG("[" << dirX << ", " << dirY << ", " << dirZ << "]");
   double lensLen = buffer.readBitDouble();
   double frontClip = buffer.readBitDouble();
   double backClip = buffer.readBitDouble();
@@ -40,12 +40,12 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   bool vm1 = buffer.readBit();
   bool vm2 = buffer.readBit();
   bool vm4 = buffer.readBit();
-  LOG_DEBUG(lensLen << " " << frontClip << " " << backClip << " " << vm0 << " " << vm1 << " " << vm2 << " " << vm4);
+//  LOG_DEBUG(lensLen << " " << frontClip << " " << backClip << " " << vm0 << " " << vm1 << " " << vm2 << " " << vm4);
 
   if (version.isAtLeast(Version::R2000))
   {
     int rendermode = buffer.readRaw8();
-    LOG_DEBUG(rendermode);
+//    LOG_DEBUG(rendermode);
   }
 
   if (version.isAtLeast(Version::R2007))
@@ -61,7 +61,7 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   double lowerLeftY = buffer.readRawDouble();
   double upperRightX = buffer.readRawDouble();
   double upperRightY = buffer.readRawDouble();
-  LOG_DEBUG("[" << lowerLeftX << ", " << lowerLeftY << "] [" << upperRightX << ", " << upperRightY << "]");
+//  LOG_DEBUG("[" << lowerLeftX << ", " << lowerLeftY << "] [" << upperRightX << ", " << upperRightY << "]");
   bool vm3 = buffer.readBit();
   int zoom = buffer.readBit16();
   bool fastZoom = buffer.readBit();
@@ -70,7 +70,7 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   bool gridOn = buffer.readBit();
   double gridSpacingX = buffer.readRawDouble();
   double gridSpacingY = buffer.readRawDouble();
-  LOG_DEBUG("[" << gridSpacingX << ", " << gridSpacingY << "]");
+//  LOG_DEBUG("[" << gridSpacingX << ", " << gridSpacingY << "]");
   bool snapOn = buffer.readBit();
   bool snapStyle = buffer.readBit();
   int snapisopair = buffer.readBit16();
@@ -79,7 +79,7 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   double snapBaseY = buffer.readRawDouble();
   double snapSpaceX = buffer.readRawDouble();
   double snapSpaceY = buffer.readRawDouble();
-  LOG_DEBUG("[" << snapBaseX << ", " << snapBaseY << "] [" << snapSpaceX << ", " << snapSpaceY << "]");
+//  LOG_DEBUG("[" << snapBaseX << ", " << snapBaseY << "] [" << snapSpaceX << ", " << snapSpaceY << "]");
 
   if (version.isAtLeast(Version::R2000))
   {
@@ -96,9 +96,9 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
     double ucsYZ = buffer.readBitDouble();
     double ucselevation = buffer.readBitDouble();
     int ucsorthotype = buffer.readBit16();
-    LOG_DEBUG("Origin [" << originX << ", " << originY << ", " << originZ << "]");
-    LOG_DEBUG("[" << ucsXX << ", " << ucsXY << ", " << ucsXZ << "]");
-    LOG_DEBUG("[" << ucsYX << ", " << ucsYY << ", " << ucsYZ << "]");
+//    LOG_DEBUG("Origin [" << originX << ", " << originY << ", " << originZ << "]");
+//    LOG_DEBUG("[" << ucsXX << ", " << ucsXY << ", " << ucsXZ << "]");
+//    LOG_DEBUG("[" << ucsYX << ", " << ucsYY << ", " << ucsYZ << "]");
   }
 
   if (version.isAtLeast(Version::R2007))
@@ -108,7 +108,7 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   }
 
   Handle handlerefs = buffer.readHandle();
-  LOG_DEBUG(handle.getCode() << ": " << handle.getValue());
+//  LOG_DEBUG(handle.getCode() << ": " << handle.getValue());
 
   if (version.isAtLeast(Version::R2007))
   {
@@ -121,11 +121,11 @@ core::ResultCode Viewport::restoreFull(ISchema& schema, DWGBuffer& buffer, const
   {
     Handle namedUCShandle = buffer.readHandle();
     Handle baseUCShandle = buffer.readHandle();
-  LOG_DEBUG(namedUCShandle.getCode() << ": " << namedUCShandle.getValue());
-  LOG_DEBUG(baseUCShandle.getCode() << ": " << baseUCShandle.getValue());
+//  LOG_DEBUG(namedUCShandle.getCode() << ": " << namedUCShandle.getValue());
+//  LOG_DEBUG(baseUCShandle.getCode() << ": " << baseUCShandle.getValue());
   }
 
-  return core::rcFailure;
+//  return core::rcFailure;
 
   return core::rcSuccess;
 }

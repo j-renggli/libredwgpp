@@ -25,6 +25,7 @@ parser/objects/dictionary.cpp
 parser/objects/entity.cpp
 parser/objects/face3d.cpp
 parser/objects/group.cpp
+parser/objects/insert.cpp
 parser/objects/layer.cpp
 parser/objects/line.cpp
 parser/objects/object.cpp

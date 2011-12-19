@@ -2,9 +2,10 @@
 
 #include "../includes.h"
 
-#include "face3d.h"
-
 namespace libredwgpp {
+
+class Face3d;
+class Vertex3d;
 
 class ISchema
 {
@@ -33,7 +34,21 @@ class ISchema
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
+    /// Add a triangle to display
     virtual void addFace3d(const Face3d& face) = 0;
+
+    /// Apply a transformation to all subsequent faces
+    /// The rotation is applied first (?)
+    /// The scaling is applied second (?)
+    /// The translation is applied last
+    virtual void addTransformationMatrix(const Vertex3d& rotAxis, double rotRad,
+                                         const Vertex3d& scaling, const Vertex3d& translation) = 0;
+
+    /// Start a group
+    virtual void groupStart(const UnicodeString& strName) = 0;
+
+    /// End a group
+    virtual void groupEnd() = 0;
 
 //    virtual const std::vector<Face3d>& getFaces3d() const = 0;
 };
