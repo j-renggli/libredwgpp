@@ -20,7 +20,7 @@ errorcodes.cpp
 
 file/archive.cpp
 
-parser/objects/blockcontrol.cpp
+parser/objects/block.cpp
 parser/objects/dictionary.cpp
 parser/objects/entity.cpp
 parser/objects/face3d.cpp
