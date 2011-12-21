@@ -16,7 +16,7 @@ core::ResultCode Insert::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
   const double translationX = buffer.readBitDouble();
   const double translationY = buffer.readBitDouble();
   const double translationZ = buffer.readBitDouble();
-//  LOG_DEBUG("[" << translationX << ", " << translationY << ", " << translationZ << "]");
+  LOG_DEBUG("[" << translationX << ", " << translationY << ", " << translationZ << "]");
 
   double scaleX = 1.;
   double scaleY = 1.;
@@ -60,7 +60,7 @@ core::ResultCode Insert::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
     int numObj = buffer.readBit32();
   }
 
-  schema.addTransformationMatrix(Vertex3d(axisX, axisY, axisZ), rotation,
+  schema.setTransformationMatrix(Vertex3d(axisX, axisY, axisZ), rotation,
                                  Vertex3d(scaleX, scaleY, scaleZ),
                                  Vertex3d(translationX, translationY, translationZ));
 

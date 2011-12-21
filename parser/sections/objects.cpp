@@ -4,7 +4,7 @@
 
 #include "../dwgbuffer.h"
 
-#include "../objects/blockcontrol.h"
+#include "../objects/block.h"
 #include "../objects/dictionary.h"
 #include "../objects/face3d.h"
 #include "../objects/group.h"
@@ -23,12 +23,15 @@ namespace libredwgpp {
 ObjectsParser::ObjectsParser(const Version& version) :
 version_(version)
 {
+  mObjects_[ 4] = boost::shared_ptr<parserobject::Block>(new parserobject::Block);
+  mObjects_[ 5] = boost::shared_ptr<parserobject::EndBlock>(new parserobject::EndBlock);
   mObjects_[ 7] = boost::shared_ptr<parserobject::Insert>(new parserobject::Insert);
   mObjects_[11] = boost::shared_ptr<parserobject::Vertex3D>(new parserobject::Vertex3D);
   mObjects_[19] = boost::shared_ptr<parserobject::Line>(new parserobject::Line);
   mObjects_[28] = boost::shared_ptr<parserobject::Face3D>(new parserobject::Face3D);
   mObjects_[42] = boost::shared_ptr<parserobject::Dictionary>(new parserobject::Dictionary);
   mObjects_[48] = boost::shared_ptr<parserobject::BlockControl>(new parserobject::BlockControl);
+  mObjects_[49] = boost::shared_ptr<parserobject::BlockHeader>(new parserobject::BlockHeader);
   mObjects_[50] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("LayerControl"));
   mObjects_[51] = boost::shared_ptr<parserobject::Layer>(new parserobject::Layer);
   mObjects_[52] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("ShapeFileControl"));

@@ -16,7 +16,6 @@ core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Handl
 //  LOG_DEBUG("pic " << hasGraphic);
   if (hasGraphic)
   {
-//    LOG_DEBUG("Graphic");
     uint64_t graphicSize = 0;
     if (version.isAtLeast(Version::R2010))
     {
@@ -25,8 +24,21 @@ core::ResultCode Entity::restore(ISchema& schema, DWGBuffer& buffer, const Handl
       graphicSize = buffer.readRaw32();
     }
 
-    LOG_ERROR("Todo: parse or skip graphic data");
-    return core::rcFailure;
+    // TODO: verify
+    if (graphicSize < 210210)
+    {
+      for (int i = 0; i < graphicSize; ++i)
+      {
+        buffer.readRaw8();
+      }
+    } else {
+      LOG_ERROR("Absurd picture size " << graphicSize);
+      return core::rcFailure;
+    }
+//    LOG_DEBUG("Graphic " << graphicSize);
+//
+//    LOG_ERROR("Todo: parse or skip graphic data");
+//    return core::rcFailure;
   }
 
   if (version.isBetween(Version::R13, Version::R14))

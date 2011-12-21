@@ -40,13 +40,13 @@ void Colour::setIndex(uint32_t index)
   g_ = (rgba >> 16) & 0xFF;
   b_ = (rgba >> 8) & 0xFF;
   a_ = (rgba >> 0) & 0xFF;
-  if (index == 0)
-  {
-    LOG_ERROR("0 index !!!");
-  } else if (index > 7 && index != 9 && index != 10 && index != 11 && index != 13 && index != 14 && index != 15)
-  {
-    LOG_DEBUG(index << " => " << (size_t)r_ << " " << (size_t)g_ << " " << (size_t)b_ << " " << (size_t)a_);
-  }
+//  if (index == 0)
+//  {
+//    LOG_ERROR("0 index !!!");
+//  } else if (index > 7 && index != 9 && index != 10 && index != 11 && index != 13 && index != 14 && index != 15)
+//  {
+//    LOG_DEBUG(index << " => " << (size_t)r_ << " " << (size_t)g_ << " " << (size_t)b_ << " " << (size_t)a_);
+//  }
 }
 
 ////////////////////////////////////////////////////////////////

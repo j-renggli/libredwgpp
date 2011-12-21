@@ -6,6 +6,8 @@ namespace libredwgpp {
 
 namespace parserobject {
 
+////////////////////////////////////////////////////////////////
+
 class Group : public parserobject::Object
 {
   public:
