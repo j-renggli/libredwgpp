@@ -10,13 +10,13 @@ namespace parserobject {
 
 ////////////////////////////////////////////////////////////////
 // P. 109
-
+//int asdf = 0;
 core::ResultCode Insert::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Handle& handle, const Version& version) const
 {
   const double translationX = buffer.readBitDouble();
   const double translationY = buffer.readBitDouble();
   const double translationZ = buffer.readBitDouble();
-  LOG_DEBUG("[" << translationX << ", " << translationY << ", " << translationZ << "]");
+//  LOG_DEBUG("[" << translationX << ", " << translationY << ", " << translationZ << "]");
 
   double scaleX = 1.;
   double scaleY = 1.;
@@ -52,18 +52,25 @@ core::ResultCode Insert::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
   const double axisX = buffer.readBitDouble();
   const double axisY = buffer.readBitDouble();
   const double axisZ = buffer.readBitDouble();
-//  LOG_DEBUG(rotation << "[rad] [" << axisX << ", " << axisY << ", " << axisZ << "]");
+  LOG_ERROR(rotation << "[rad] [" << axisX << ", " << axisY << ", " << axisZ << "]");
   bool hasAttrib = buffer.readBit();
+  LOG_ERROR("Has attribute " << hasAttrib);
 
   if (version.isAtLeast(Version::R2004))
   {
     int numObj = buffer.readBit32();
+    LOG_DEBUG(numObj);
   }
 
-  schema.setTransformationMatrix(Vertex3d(axisX, axisY, axisZ), rotation,
+  Handle h = buffer.readHandle();
+  LOG_DEBUG("Handle: " << h.getCode() << " => " << h.getValue());
+
+  schema.insert(h.getValue(), Vertex3d(axisX, axisY, axisZ), rotation,
                                  Vertex3d(scaleX, scaleY, scaleZ),
                                  Vertex3d(translationX, translationY, translationZ));
-
+//LOG_ERROR(++asdf);
+//if (++asdf > 138)
+//return core::rcFailure;
   return core::rcSuccess;
 }
 

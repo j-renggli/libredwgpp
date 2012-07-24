@@ -46,7 +46,8 @@ core::ResultCode Parser::create(Archive& archive, boost::shared_ptr<Parser>& ptr
     ptrLoader.reset(new Parser2000(archive));
   } else if (memcmp(buffer.getBuffer(), "AC1018", size) == 0) {
     ptrLoader.reset(new Parser2004(archive));
-//  } else {
+  } else {
+    LOG_ERROR("Unknown version: " << buffer.getBuffer());
 //    return rcVersionError;
   }
 

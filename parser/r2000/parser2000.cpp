@@ -52,9 +52,9 @@ core::ResultCode Parser2000::getSectionBuffer(Section::Type st, DWGBuffer& buffe
     return core::rcFailure;
   }
 
-LOG_DEBUG("Address " << std::hex << vPages_[index].offset_);
-LOG_DEBUG("Size " << vPages_[index].size_);
-LOG_DEBUG("End     " << std::hex << (vPages_[index].offset_ + vPages_[index].size_));
+//LOG_DEBUG("Address " << std::hex << vPages_[index].offset_);
+//LOG_DEBUG("Size " << vPages_[index].size_);
+//LOG_DEBUG("End     " << std::hex << (vPages_[index].offset_ + vPages_[index].size_));
 
   buffer.setPosition(0);
   return archive_.read(buffer.getBuffer(), vPages_[index].offset_, vPages_[index].size_);
@@ -163,7 +163,8 @@ core::ResultCode Parser2000::parseObjects(ISchema& schema, ObjectsParser& parser
 
       rc = parser.restoreObject(schema, objectData, *ptrClasses_);
       if (rc.isFailure())
-        return rc;
+        return core::rcSuccess;
+//        return rc;
     }
 
     buffer.skipBits();

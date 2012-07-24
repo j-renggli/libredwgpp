@@ -28,6 +28,7 @@ parser/objects/group.cpp
 parser/objects/insert.cpp
 parser/objects/layer.cpp
 parser/objects/line.cpp
+parser/objects/lwpolyline.cpp
 parser/objects/object.cpp
 parser/objects/shapefile.cpp
 parser/objects/undocumentedcontrol.cpp

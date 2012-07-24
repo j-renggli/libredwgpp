@@ -38,17 +38,24 @@ class ISchema
     virtual void addFace3d(const Face3d& face) = 0;
 
     /// Start a block
-    virtual void blockStart(const UnicodeString& strName) = 0;
+    virtual void blockStart(size_t id, const UnicodeString& strName) = 0;
 
     /// End a block
     virtual void blockEnd() = 0;
 
-    /// Apply a transformation to all subsequent faces
+    /// Insert an element, applying some transformations
     /// The scaling is applied first (?)
     /// The rotation is applied second (?)
     /// The translation is applied last
-    virtual void setTransformationMatrix(const Vertex3d& rotAxis, double rotRad,
-                                         const Vertex3d& scaling, const Vertex3d& translation) = 0;
+    virtual void insert(size_t elt_id, const Vertex3d& rotAxis, double rotRad,
+                        const Vertex3d& scaling, const Vertex3d& translation) = 0;
+
+//    /// Apply a transformation to all subsequent faces
+//    /// The scaling is applied first (?)
+//    /// The rotation is applied second (?)
+//    /// The translation is applied last
+//    virtual void setTransformationMatrix(const Vertex3d& rotAxis, double rotRad,
+//                                         const Vertex3d& scaling, const Vertex3d& translation) = 0;
 
 //    virtual const std::vector<Face3d>& getFaces3d() const = 0;
 };

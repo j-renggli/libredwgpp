@@ -11,6 +11,7 @@
 #include "../objects/insert.h"
 #include "../objects/layer.h"
 #include "../objects/line.h"
+#include "../objects/lwpolyline.h"
 #include "../objects/shapefile.h"
 #include "../objects/undocumentedcontrol.h"
 #include "../objects/vertex3d.h"
@@ -44,6 +45,7 @@ version_(version)
   mObjects_[66] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("Table_appid"));
   mObjects_[68] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("DimstyleControl"));
   mObjects_[72] = boost::shared_ptr<parserobject::Group>(new parserobject::Group);
+  mObjects_[77] = boost::shared_ptr<parserobject::PolyLine>(new parserobject::PolyLine);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -86,6 +88,7 @@ core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer
     return core::rcSuccess;
   }
 
+//LOG_DEBUG("Type " << type);
   ObjectsMap::const_iterator it = mObjects_.find(type);
   if (it == mObjects_.end())
   {
@@ -101,7 +104,7 @@ core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer
 //LOG_DEBUG(buffer.getPosition() << ", " << buffer.getOffset());
   }
   Handle handle = buffer.readHandle();
-//  LOG_DEBUG("handle " << (int16_t)handle.code_ << " " << handle.value_);
+//  LOG_DEBUG("handle " << handle.getCode() << " " << handle.getValue());
 
   buffer.readEED();
 //LOG_DEBUG(type);

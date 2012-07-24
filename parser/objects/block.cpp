@@ -13,7 +13,7 @@ namespace parserobject {
 // P. 108
 core::ResultCode Block::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Handle& handle, const Version& version) const
 {
-  schema.blockStart(buffer.readText(version));
+  schema.blockStart(handle.getValue(), buffer.readText(version));
 
   return core::rcSuccess;
 }
@@ -23,8 +23,9 @@ core::ResultCode Block::restoreFull(ISchema& schema, DWGBuffer& buffer, const Co
 // P. 108
 core::ResultCode EndBlock::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Handle& handle, const Version& version) const
 {
+  LOG_WARNING(handle.getCode() << ", " << handle.getValue());
   schema.blockEnd();
-  LOG_DEBUG("End");
+//  LOG_DEBUG("End");
 
   return core::rcSuccess;
 }
@@ -48,6 +49,7 @@ core::ResultCode BlockControl::restoreFull(ISchema& schema, DWGBuffer& buffer, c
 // P. 150
 core::ResultCode BlockHeader::restoreFull(ISchema& schema, DWGBuffer& buffer, const Handle& handle, const Version& version) const
 {
+//  LOG_WARNING(handle.getValue());
   UnicodeString strName = buffer.readText(version);
   bool flag = buffer.readBit();
   int xref = buffer.readBit16() - 1;
@@ -69,7 +71,7 @@ core::ResultCode BlockHeader::restoreFull(ISchema& schema, DWGBuffer& buffer, co
   const double baseY = buffer.readBitDouble();
   const double baseZ = buffer.readBitDouble();
   UnicodeString strPathName = buffer.readText(version);
-  LOG_DEBUG(strName << " - " << strPathName << " [" << baseX << ", " << baseY << ", " << baseZ << "]");
+//  LOG_DEBUG(strName << " - " << strPathName << " [" << baseX << ", " << baseY << ", " << baseZ << "]");
 
   if (version.isAtLeast(Version::R2000))
   {
@@ -82,7 +84,19 @@ core::ResultCode BlockHeader::restoreFull(ISchema& schema, DWGBuffer& buffer, co
       ++tot;
     }
     UnicodeString strDescription = buffer.readText(version);
-    LOG_WARNING(tot << " " << strDescription);
+    const uint32_t previewSize = buffer.readBit32();
+    buffer.skipBytes(previewSize);
+
+    if (version.isAtLeast(Version::R2007)) {
+      const int16_t insertUnits = buffer.readBit16();
+      const bool isExplodable = buffer.readBit();
+      const char blockScaling = buffer.readRaw8();
+      LOG_WARNING(insertUnits << ".. " << isExplodable << " " << blockScaling);
+    }
+
+    Handle handleRefs = buffer.readHandle();
+//    LOG_WARNING(tot << " " << strDescription << ": " << previewSize);
+//    LOG_WARNING(handleRefs.getCode() << ": " << handleRefs.getValue());
   }
 
   return core::rcSuccess;
