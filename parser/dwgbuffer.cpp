@@ -156,7 +156,7 @@ uint32_t DWGBuffer::readBit32()
       return 0;
     default:
     {
-      LOG_ERROR("Unexpected value " << std::hex << b2);
+      LOG_ERROR("Unexpected value " << std::hex << size_t(b2));
       throw std::out_of_range("2-bit code (32)");
     }
   }
@@ -195,7 +195,7 @@ double DWGBuffer::readBitDouble()
       return 0.;
     default:
     {
-      LOG_ERROR("Unexpected value " << std::hex << b2);
+      LOG_ERROR("Unexpected value " << std::hex << size_t(b2));
       throw std::out_of_range("2-bit code (double)");
     }
   }
@@ -244,6 +244,21 @@ void DWGBuffer::readBitExtrusion(const Version& version, double& x, double& y, d
   x = readBitDouble();
   y = readBitDouble();
   z = readBitDouble();
+}
+
+////////////////////////////////////////////////////////////////
+
+double DWGBuffer::readBitThickness(const Version& version)
+{
+  if (version.isAtLeast(Version::R2000))
+  {
+    if (readBit())
+    {
+      return 0.;
+    }
+  }
+
+  return readBitDouble();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -329,7 +344,7 @@ EntityData DWGBuffer::readEED()
       if (!isprint(strToRemove[i]))
         strToRemove[i] = '-';
     }
-    LOG_DEBUG(strToRemove);
+//    LOG_DEBUG(strToRemove);
   }
 
   return eed;
@@ -392,6 +407,7 @@ int32_t DWGBuffer::readModularShort()
   for (int j = 0; j < 25; j += 15)
   {
     val = readRaw16();
+//    LOG_DEBUG(result << " " << std::hex << size_t(val));
     if (val & 0x8000) {
       val &= 0x7FFF;
     } else {

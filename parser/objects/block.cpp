@@ -23,7 +23,7 @@ core::ResultCode Block::restoreFull(ISchema& schema, DWGBuffer& buffer, const Co
 // P. 108
 core::ResultCode EndBlock::restoreFull(ISchema& schema, DWGBuffer& buffer, const Colour& colour, const Handle& handle, const Version& version) const
 {
-  LOG_WARNING(handle.getCode() << ", " << handle.getValue());
+//  LOG_WARNING(handle.getCode() << ", " << handle.getValue());
   schema.blockEnd();
 //  LOG_DEBUG("End");
 

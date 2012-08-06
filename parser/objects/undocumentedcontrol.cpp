@@ -8,16 +8,16 @@ namespace parserobject {
 
 core::ResultCode UndocumentedControl::restoreFull(ISchema& schema, DWGBuffer& buffer, const Handle& handle, const Version& version) const
 {
-  /*size_t numEntries = */buffer.readModularShort();
-//  LOG_DEBUG(strName_ << " num entries " << numEntries);
-
-  try
-  {
-    Handle handle = buffer.readHandle();
-//    LOG_DEBUG(strName_ << " handle " << (int16_t)handle.code_ << " " << handle.value_);
-  } catch (std::exception& e)
-  {
-  }
+//  /*size_t numEntries = */buffer.readModularShort();
+////  LOG_DEBUG(strName_ << " num entries " << numEntries);
+//
+//  try
+//  {
+//    Handle handle = buffer.readHandle();
+////    LOG_DEBUG(strName_ << " handle " << (int16_t)handle.code_ << " " << handle.value_);
+//  } catch (std::exception& e)
+//  {
+//  }
 
 //Common:
 //Numentries BL

@@ -51,6 +51,8 @@ parser/r2004/sectioninfo.cpp
 parser/r2004/sectionmap.cpp
 parser/r2004/sectionobjects.cpp
 
+parser/r2007/parser2007.cpp
+
 parser/sections/classes.cpp
 parser/sections/objects.cpp
 

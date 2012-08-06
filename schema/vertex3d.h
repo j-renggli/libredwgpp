@@ -56,7 +56,15 @@ class Vertex3d
   // Functions
   ////////////////////////////////////////////////////////////////
   public:
-    double get(size_t index) const { return position_[index]; }
+    double get(size_t index) const {
+      ASSERT(index < 3);
+      return position_[index];
+    }
+
+    void set(size_t index, double x) {
+      ASSERT(index < 3);
+      position_[index] = x;
+    }
 
 };
 

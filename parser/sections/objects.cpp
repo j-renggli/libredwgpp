@@ -24,12 +24,16 @@ namespace libredwgpp {
 ObjectsParser::ObjectsParser(const Version& version) :
 version_(version)
 {
+  //mObjects_[ 3] = AttDef
   mObjects_[ 4] = boost::shared_ptr<parserobject::Block>(new parserobject::Block);
   mObjects_[ 5] = boost::shared_ptr<parserobject::EndBlock>(new parserobject::EndBlock);
   mObjects_[ 7] = boost::shared_ptr<parserobject::Insert>(new parserobject::Insert);
   mObjects_[11] = boost::shared_ptr<parserobject::Vertex3D>(new parserobject::Vertex3D);
+  //mObjects_[17] = Arc
+  //mObjects_[18] = Circle
   mObjects_[19] = boost::shared_ptr<parserobject::Line>(new parserobject::Line);
   mObjects_[28] = boost::shared_ptr<parserobject::Face3D>(new parserobject::Face3D);
+  //mObjects_[38] = 3dSolid ???
   mObjects_[42] = boost::shared_ptr<parserobject::Dictionary>(new parserobject::Dictionary);
   mObjects_[48] = boost::shared_ptr<parserobject::BlockControl>(new parserobject::BlockControl);
   mObjects_[49] = boost::shared_ptr<parserobject::BlockHeader>(new parserobject::BlockHeader);
@@ -38,14 +42,19 @@ version_(version)
   mObjects_[52] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("ShapeFileControl"));
   mObjects_[53] = boost::shared_ptr<parserobject::ShapeFile>(new parserobject::ShapeFile);
   mObjects_[56] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("LineTypeControl"));
+  //mObjects_[57] = LType
   mObjects_[60] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("ViewControl"));
   mObjects_[62] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("UCSControl"));
   mObjects_[64] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("Table_vport"));
   mObjects_[65] = boost::shared_ptr<parserobject::Viewport>(new parserobject::Viewport);
   mObjects_[66] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("Table_appid"));
+  //mObjects_[67] = AppId
   mObjects_[68] = boost::shared_ptr<parserobject::UndocumentedControl>(new parserobject::UndocumentedControl("DimstyleControl"));
+  //mObjects_[69] = DimStyle
   mObjects_[72] = boost::shared_ptr<parserobject::Group>(new parserobject::Group);
+  //mObjects_[73] = mLineStyle
   mObjects_[77] = boost::shared_ptr<parserobject::PolyLine>(new parserobject::PolyLine);
+  //mObjects_[79] = xRecord
 }
 
 ////////////////////////////////////////////////////////////////
@@ -82,9 +91,10 @@ core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer
       return core::rcSuccess;
     }
 
-//    LOG_DEBUG(vClasses[type - 500].getAppName());
-//    LOG_DEBUG(vClasses[type - 500].getCppName());
-//    LOG_DEBUG(vClasses[type - 500].getDxfName());
+    LOG_ERROR(vClasses[type - 500].getClassID());
+    LOG_DEBUG(vClasses[type - 500].getAppName());
+    LOG_DEBUG(vClasses[type - 500].getCppName());
+    LOG_DEBUG(vClasses[type - 500].getDxfName());
     return core::rcSuccess;
   }
 
@@ -105,6 +115,7 @@ core::ResultCode ObjectsParser::restoreObject(ISchema& schema, DWGBuffer& buffer
   }
   Handle handle = buffer.readHandle();
 //  LOG_DEBUG("handle " << handle.getCode() << " " << handle.getValue());
+//  LOG_DEBUG("Handle " << handle.getValue() << " (type) " << type);
 
   buffer.readEED();
 //LOG_DEBUG(type);

@@ -45,8 +45,21 @@ core::ResultCode Group::restoreFull(ISchema& schema, DWGBuffer& buffer, const Ha
   UnicodeString strName = buffer.readText(version);
   size_t unnammed = buffer.readBit16(); // Unnammed
   size_t selectable = buffer.readBit16(); // selectable
-  size_t numhandles = buffer.readBit32();
-//  LOG_DEBUG(strName << " " << unnammed << " " << selectable << " " << numhandles);
+  size_t numHandles = buffer.readBit32();
+  LOG_DEBUG(strName << " " << unnammed << " " << selectable << " " << numHandles);
+
+  // 4: parent handle
+  // 4?: reactors
+  // 3: xdicobjhandle
+  // 5: n x references
+  for (size_t h = 0; h < numHandles; ++h) {
+    Handle handle = buffer.readHandle();
+//    LOG_DEBUG("\t" << handle.getCode() << ", " << handle.getValue());
+    if (handle.getCode() != 5)
+      --h;
+  }
+
+  return core::rcFailure;
 //
 //  Handle h = buffer.readHandle();
 //  LOG_DEBUG(h.getCode() << " " << h.getValue());

@@ -40,6 +40,8 @@ class Class
     const UnicodeString& getCppName() const { return strCppName_; }
     const UnicodeString& getDxfName() const { return strDxfName_; }
 
+    size_t  getClassID() const { return itemClassID_; }
+
   private:
 //    virtual core::ResultCode restore(DWGBuffer& buffer);
 };

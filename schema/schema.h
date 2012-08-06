@@ -37,6 +37,10 @@ class ISchema
     /// Add a triangle to display
     virtual void addFace3d(const Face3d& face) = 0;
 
+    /// Add a line to display
+    virtual void addLine(size_t id, const Vertex3d& start, const Vertex3d& end,
+                         double thickness, const Vertex3d& extrusion) = 0;
+
     /// Start a block
     virtual void blockStart(size_t id, const UnicodeString& strName) = 0;
 

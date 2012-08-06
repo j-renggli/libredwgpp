@@ -31,17 +31,17 @@ core::ResultCode PolyLine::restoreFull(ISchema& schema, DWGBuffer& buffer, const
     x = buffer.readBitDouble();
     y = buffer.readBitDouble();
     z = buffer.readBitDouble();
-    LOG_DEBUG("A");
+//    LOG_DEBUG("A");
   }
-    LOG_DEBUG("LWPOLYLINE [" << x << ", " << y << ", " << z << "]");
+//    LOG_DEBUG("LWPOLYLINE [" << x << ", " << y << ", " << z << "]");
 
   uint32_t vertical = buffer.readBit32();
-  LOG_DEBUG(vertical);
+//  LOG_DEBUG(vertical);
 
   uint32_t round = 0;
   if (index & 0x10) {
     round = buffer.readBit32();
-    LOG_DEBUG(round);
+//    LOG_DEBUG(round);
   }
 
 //return core::rcFailure;

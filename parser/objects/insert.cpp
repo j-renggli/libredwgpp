@@ -52,9 +52,9 @@ core::ResultCode Insert::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
   const double axisX = buffer.readBitDouble();
   const double axisY = buffer.readBitDouble();
   const double axisZ = buffer.readBitDouble();
-  LOG_ERROR(rotation << "[rad] [" << axisX << ", " << axisY << ", " << axisZ << "]");
+//  LOG_ERROR(rotation << "[rad] [" << axisX << ", " << axisY << ", " << axisZ << "]");
   bool hasAttrib = buffer.readBit();
-  LOG_ERROR("Has attribute " << hasAttrib);
+//  LOG_ERROR("Has attribute " << hasAttrib);
 
   if (version.isAtLeast(Version::R2004))
   {
@@ -63,7 +63,15 @@ core::ResultCode Insert::restoreFull(ISchema& schema, DWGBuffer& buffer, const C
   }
 
   Handle h = buffer.readHandle();
-  LOG_DEBUG("Handle: " << h.getCode() << " => " << h.getValue());
+//  LOG_DEBUG("Handle: " << h.getCode() << " => " << h.getValue());
+
+  try {
+//    Handle i = buffer.readHandle();
+//    LOG_DEBUG("H2: " << i.getCode() << " => " << i.getValue());
+//    Handle j = buffer.readHandle();
+//    LOG_DEBUG("H3: " << j.getCode() << " => " << j.getValue());
+  } catch (...) {
+  }
 
   schema.insert(h.getValue(), Vertex3d(axisX, axisY, axisZ), rotation,
                                  Vertex3d(scaleX, scaleY, scaleZ),

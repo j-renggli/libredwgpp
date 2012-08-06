@@ -64,6 +64,7 @@ class DWGBuffer
     double readBitDouble();
     void readBitDouble(double& valueWithDefault);
     void readBitExtrusion(const Version& version, double& x, double& y, double& z);
+    double readBitThickness(const Version& version);
 
     /// "Colour" read
     Colour readColour(const Version& version, bool isEntity = false);
